@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Realm | عالم الأحلام</title>
+    <title>Dream Realm | عالم الأحلام الأسطوري</title>
     
     <!-- SEO -->
-    <meta name="description" content="أول منصة عربية حقيقية لتسجيل ومشاركة الأحلام">
+    <meta name="description" content="أول منصة عربية أسطورية لتسجيل ومشاركة الأحلام">
     <meta name="keywords" content="أحلام, تفسير أحلام, مجتمع أحلام">
-    <meta name="author" content="Dream Realm">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,100 +17,85 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+
     <!-- Header -->
     <header id="header">
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-cloud-moon"></i>
+                <i class="fas fa-cloud-moon logo-icon"></i>
                 <span>Dream Realm</span>
             </div>
             
             <nav class="nav-menu">
-                <a href="index.html" class="active">الرئيسية</a>
-                <a href="explore.html">استكشف</a>
-                <a href="profile.html">ملفي</a>
-                <a href="dream.html">سجل حلم</a>
+                <a href="index.html" class="nav-link active">الرئيسية</a>
+                <a href="explore.html" class="nav-link">استكشف</a>
+                <a href="profile.html" class="nav-link">عالمي</a>
+                <a href="dream.html" class="nav-link">سجل حلم</a>
             </nav>
             
             <div class="user-actions" id="userMenu">
                 <a href="login.html" class="btn btn-outline">دخول</a>
                 <a href="register.html" class="btn btn-primary">انضم</a>
             </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
-    <!-- Mobile Sidebar -->
-    <div class="mobile-sidebar" id="mobileSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <i class="fas fa-cloud-moon"></i>
-                <span>Dream Realm</span>
-            </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-            <a href="explore.html"><i class="fas fa-compass"></i> استكشف</a>
-            <a href="profile.html"><i class="fas fa-user"></i> ملفي</a>
-            <a href="dream.html"><i class="fas fa-pen"></i> سجل حلم</a>
-        </nav>
-        <div class="sidebar-user" id="sidebarUser">
-            <a href="login.html" class="btn btn-outline">دخول</a>
-            <a href="register.html" class="btn btn-primary">انضم</a>
-        </div>
-    </div>
-    <div class="overlay" id="overlay"></div>
-
     <!-- Main Content -->
     <main>
-        <div class="container">
-            <!-- Hero Section -->
-            <section style="text-align: center; padding: 4rem 0;">
-                <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-900);">
-                    مرحباً بك في <span style="color: var(--primary);">Dream Realm</span>
-                </h1>
-                <p style="font-size: 1.2rem; color: var(--gray-600); max-width: 600px; margin: 0 auto 2rem;">
-                    أول منصة عربية حقيقية لتسجيل ومشاركة الأحلام. شارك أحلامك مع العالم.
+        <section class="hero">
+            <div class="container">
+                <h1 class="typewriter" id="typewriter"></h1>
+                
+                <p class="hero-description">
+                    أول منصة عربية أسطورية لتسجيل ومشاركة الأحلام. 
+                    ادخل عالمك الخاص وشارك أحلامك مع العالم.
                 </p>
                 
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem;">
-                    <a href="dream.html" class="btn btn-primary">سجل حلمك الآن</a>
-                    <a href="explore.html" class="btn btn-outline">استكشف الأحلام</a>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number" data-stat="dreams">١٬٢٤٧</div>
+                        <div class="stat-label">حلم مسجل</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-stat="users">٨٢٩</div>
+                        <div class="stat-label">حالم</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-stat="today">٤٢</div>
+                        <div class="stat-label">حلم اليوم</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-stat="likes">٣٬٤٥٦</div>
+                        <div class="stat-label">إعجاب</div>
+                    </div>
                 </div>
                 
-                <!-- Stats -->
-                <div style="display: flex; justify-content: center; gap: 3rem; margin-bottom: 3rem;">
-                    <div>
-                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);" data-stat="dreams">١٬٢٤٧</div>
-                        <div style="color: var(--gray-600);">حلم مسجل</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);" data-stat="users">٨٢٩</div>
-                        <div style="color: var(--gray-600);">حالم</div>
-                    </div>
-                    <div>
-                        <div style="font-size: 2rem; font-weight: 700; color: var(--primary);" data-stat="likes">٣٬٤٥٦</div>
-                        <div style="color: var(--gray-600);">إعجاب</div>
-                    </div>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="dream.html" class="btn btn-primary btn-large">
+                        <i class="fas fa-pen"></i> سجل حلمك
+                    </a>
+                    <a href="explore.html" class="btn btn-outline btn-large">
+                        <i class="fas fa-compass"></i> استكشف
+                    </a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Recent Dreams -->
-            <section>
-                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">أحدث الأحلام</h2>
-                <div class="dreams-grid" id="dreamsGrid"></div>
-                
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="explore.html" class="btn btn-outline">عرض المزيد</a>
-                </div>
-            </section>
-        </div>
+        <!-- Recent Dreams -->
+        <section class="container">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem; text-align: center;">أحدث الأحلام</h2>
+            
+            <div class="dreams-grid" id="dreamsGrid">
+                <!-- سيتم تحميل الأحلام هنا -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="explore.html" class="btn btn-outline">عرض المزيد</a>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -120,7 +104,7 @@
             <div class="footer-col">
                 <h4>Dream Realm</h4>
                 <ul>
-                    <li><a href="#">عن الموقع</a></li>
+                    <li><a href="#">عن العالم</a></li>
                     <li><a href="#">المدونة</a></li>
                     <li><a href="#">وظائف</a></li>
                 </ul>
@@ -128,17 +112,17 @@
             <div class="footer-col">
                 <h4>المساعدة</h4>
                 <ul>
-                    <li><a href="#">الأسئلة الشائعة</a></li>
-                    <li><a href="#">الدعم الفني</a></li>
+                    <li><a href="#">الأسئلة</a></li>
+                    <li><a href="#">الدعم</a></li>
                     <li><a href="#">اتصل بنا</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>القانونية</h4>
                 <ul>
-                    <li><a href="#">سياسة الخصوصية</a></li>
-                    <li><a href="#">شروط الاستخدام</a></li>
-                    <li><a href="#">ملفات تعريف الارتباط</a></li>
+                    <li><a href="#">الخصوصية</a></li>
+                    <li><a href="#">الشروط</a></li>
+                    <li><a href="#">ملفات تعريف</a></li>
                 </ul>
             </div>
         </div>
@@ -147,17 +131,17 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
     
-    <!-- Main JavaScript -->
+    <!-- Main Script -->
     <script src="script.js"></script>
 </body>
 </html>
