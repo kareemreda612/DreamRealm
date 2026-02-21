@@ -11,131 +11,9 @@
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        /* تنسيقات إضافية بسيطة */
-        .hero-section {
-            text-align: center;
-            padding: 4rem 1rem;
-        }
-        
-        .stats-container {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            color: var(--text-secondary);
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .dreams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .dream-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            border: 1px solid #334155;
-        }
-        
-        .dream-card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        
-        .dream-card-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-        
-        .dream-card-name {
-            font-weight: 600;
-        }
-        
-        .dream-card-time {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-        
-        .dream-card-content {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-        
-        .dream-card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 0.5rem;
-            border-top: 1px solid #334155;
-        }
-        
-        .dream-card-likes {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--danger);
-            cursor: pointer;
-        }
-        
-        .dream-card-link {
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .nav-menu {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .nav-menu a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .nav-menu a:hover,
-        .nav-menu a.active {
-            color: var(--primary);
-        }
-    </style>
 </head>
 <body>
-    <!-- Header مع قائمة الصفحات الكاملة -->
+    <!-- Header -->
     <header id="header">
         <div class="header-container">
             <div class="logo">
@@ -292,6 +170,7 @@
             const username = dream.username || 'مستخدم';
             const initial = username.charAt(0).toUpperCase();
             const likesCount = dream.likes ? Object.keys(dream.likes).length : 0;
+            const isLiked = auth.currentUser && dream.likes && dream.likes[auth.currentUser.uid];
             
             card.innerHTML = `
                 <div class="dream-card-header">
@@ -304,8 +183,8 @@
                 <div class="dream-card-content">${dream.text.substring(0, 150)}${dream.text.length > 150 ? '...' : ''}</div>
                 <div class="dream-card-footer">
                     <span class="dream-card-likes" onclick="toggleLike('${id}')">
-                        <i class="far fa-heart"></i>
-                        <span>${likesCount}</span>
+                        <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
+                        <span class="likes-count-${id}">${likesCount}</span>
                     </span>
                     <a href="dream.html?id=${id}" class="dream-card-link">اقرأ المزيد</a>
                 </div>
@@ -314,7 +193,7 @@
             return card;
         }
 
-        // ================ الإعجاب ================
+        // ================ الإعجاب - فعال 100% ================
         window.toggleLike = function(dreamId) {
             if (!auth.currentUser) {
                 alert('يجب تسجيل الدخول أولاً');
@@ -323,18 +202,27 @@
             }
             
             const dreamRef = database.ref('dreams/' + dreamId);
+            const userId = auth.currentUser.uid;
             
             dreamRef.transaction((dream) => {
                 if (dream) {
                     if (!dream.likes) dream.likes = {};
                     
-                    if (dream.likes[auth.currentUser.uid]) {
-                        delete dream.likes[auth.currentUser.uid];
+                    if (dream.likes[userId]) {
+                        delete dream.likes[userId];
                     } else {
-                        dream.likes[auth.currentUser.uid] = true;
+                        dream.likes[userId] = true;
                     }
                 }
                 return dream;
+            }).then(() => {
+                // تحديث العداد في الواجهة
+                dreamRef.once('value').then((snapshot) => {
+                    const dream = snapshot.val();
+                    const likesCount = dream.likes ? Object.keys(dream.likes).length : 0;
+                    const likeSpan = document.querySelector(`.likes-count-${dreamId}`);
+                    if (likeSpan) likeSpan.textContent = likesCount;
+                });
             });
         };
 
@@ -356,6 +244,9 @@
                         <a href="register.html" class="btn btn-primary">انضم</a>
                     `;
                 }
+                
+                // إعادة تحميل الأحلام لتحديث أيقونات الإعجاب
+                loadRecentDreams();
             });
         }
 
