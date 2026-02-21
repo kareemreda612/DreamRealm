@@ -5,149 +5,238 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Realm | عالم الأحلام</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="أول عالم افتراضي لتسجيل وتحليل الأحلام بتقنية ثلاثية الأبعاد">
-    <meta name="keywords" content="أحلام, ذكاء اصطناعي, ثلاثي الأبعاد, تفسير أحلام">
+    <!-- SEO -->
+    <meta name="description" content="أول منصة عربية لتسجيل ومشاركة الأحلام بتصميم عصري">
+    <meta name="keywords" content="أحلام, تفسير أحلام, مجتمع أحلام">
     <meta name="author" content="Dream Realm">
     
-    <!-- Open Graph for Social Media -->
-    <meta property="og:title" content="Dream Realm - عالم الأحلام">
-    <meta property="og:description" content="ادخل عالم أحلامك الخاص">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="assets/images/og-image.jpg">
-    
-    <!-- Font Awesome Icons -->
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Fonts - Arabic Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Three.js for 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <!-- 3D Canvas Container -->
-    <div id="canvas-container"></div>
-    
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loader"></div>
-        <p>جاري فتح بوابة الأحلام...</p>
+    <!-- Particles Container -->
+    <div id="particles"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-cloud-moon"></i>
+                </div>
+                <span>Dream Realm</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link active">الرئيسية</a>
+                <a href="pages/explore.html" class="nav-link">استكشف</a>
+                <a href="pages/profile.html" class="nav-link">ملفي</a>
+                <a href="pages/dream.html" class="nav-link">سجل حلم</a>
+            </nav>
+            
+            <div class="user-actions">
+                <a href="pages/login.html" class="btn btn-outline">دخول</a>
+                <a href="pages/register.html" class="btn btn-primary">انضم</a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-cloud-moon"></i>
+                <span>Dream Realm</span>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="active">الرئيسية</a>
+            <a href="pages/explore.html">استكشف</a>
+            <a href="pages/profile.html">ملفي</a>
+            <a href="pages/dream.html">سجل حلم</a>
+            <div class="sidebar-user">
+                <a href="pages/login.html" class="btn btn-outline">دخول</a>
+                <a href="pages/register.html" class="btn btn-primary">انضم</a>
+            </div>
+        </nav>
     </div>
+    <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
-    <div class="main-content" id="mainContent" style="display: none;">
-        <!-- Header -->
-        <header class="glass-header">
-            <div class="header-container">
-                <div class="logo">
-                    <i class="fas fa-cloud-moon"></i>
-                    <span>Dream Realm</span>
-                </div>
-                
-                <nav class="nav-menu">
-                    <a href="index.html" class="active">الرئيسية</a>
-                    <a href="pages/explore.html">استكشف</a>
-                    <a href="pages/profile.html">ملفي</a>
-                    <a href="pages/dream.html">سجل حلم</a>
-                </nav>
-                
-                <div class="user-actions">
-                    <a href="pages/login.html" class="btn btn-outline">دخول</a>
-                    <a href="pages/register.html" class="btn btn-primary">انضم</a>
-                </div>
-                
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- Hero Section -->
+    <main>
         <section class="hero">
             <div class="hero-content">
-                <h1 class="glitch-text" data-text="أهلاً بك في عالم الأحلام">
-                    أهلاً بك في <span class="gradient-text">عالم الأحلام</span>
+                <h1 class="hero-title">
+                    عالم الأحلام
                 </h1>
-                <p class="hero-description">أول منصة في العالم تستخدم الذكاء الاصطناعي والتقنيات ثلاثية الأبعاد لتحليل وتفسير أحلامك</p>
+                <p class="hero-description">
+                    منصة عربية متكاملة لتسجيل ومشاركة الأحلام. شارك أحلامك مع العالم واكتشف عوالم جديدة.
+                </p>
                 
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <div class="stat-number" id="totalDreams">0</div>
+                        <div class="stat-number" id="totalDreams">١٢٬٨٤٧</div>
                         <div class="stat-label">حلم مسجل</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-number" id="totalUsers">٨٬٢٩١</div>
                         <div class="stat-label">حالم</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="activeNow">0</div>
+                        <div class="stat-number" id="activeNow">٣٤٢</div>
                         <div class="stat-label">نشط الآن</div>
                     </div>
                 </div>
                 
                 <div class="hero-buttons">
-                    <a href="pages/dream.html" class="btn btn-primary btn-large">
-                        <i class="fas fa-pen"></i> سجل حلمك الآن
+                    <a href="pages/dream.html" class="btn btn-primary">
+                        <i class="fas fa-pen"></i> سجل حلمك
                     </a>
-                    <a href="pages/explore.html" class="btn btn-outline btn-large">
-                        <i class="fas fa-compass"></i> استكشف الأحلام
+                    <a href="pages/explore.html" class="btn btn-outline">
+                        <i class="fas fa-compass"></i> استكشف
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <section class="features">
-            <h2 class="section-title">لماذا <span class="gradient-text">Dream Realm</span>؟</h2>
+        <!-- Recent Dreams Section -->
+        <section class="container">
+            <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">أحدث الأحلام</h2>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cube"></i>
+            <div class="dreams-grid" id="recentDreams">
+                <!-- Dream Card 1 -->
+                <div class="dream-card">
+                    <div class="dream-card-header">
+                        <div class="dream-card-avatar">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <div class="dream-card-info">
+                            <h3>سارة الأحمد</h3>
+                            <span>منذ ساعتين</span>
+                        </div>
                     </div>
-                    <h3>عالم ثلاثي الأبعاد</h3>
-                    <p>تصفح أحلامك في فضاء ثلاثي الأبعاد تفاعلي</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-brain"></i>
+                    <div class="dream-card-content">
+                        حلمت أنني أطير فوق المدينة. كانت السماء صافية والناس ينظرون إليّ بإعجاب...
                     </div>
-                    <h3>ذكاء اصطناعي</h3>
-                    <p>تحليل عميق لأحلامك باستخدام أحدث تقنيات AI</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-moon"></i>
+                    <div class="dream-card-footer">
+                        <div class="dream-card-stats">
+                            <span class="dream-card-stat">
+                                <i class="fas fa-heart"></i> ٢٣٤
+                            </span>
+                            <span class="dream-card-stat">
+                                <i class="fas fa-comment"></i> ٤٥
+                            </span>
+                        </div>
+                        <a href="pages/dream.html?id=1" class="dream-card-link">
+                            اقرأ المزيد <i class="fas fa-arrow-left"></i>
+                        </a>
                     </div>
-                    <h3>تفسير فوري</h3>
-                    <p>احصل على تفسير لحلمك في ثوانٍ</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>مجتمع الأحلام</h3>
-                    <p>شارك أحلامك مع ملايين المستخدمين</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- Recent Dreams -->
-        <section class="recent-dreams">
-            <h2 class="section-title">أحدث <span class="gradient-text">الأحلام</span></h2>
-            
-            <div class="dreams-grid" id="recentDreamsGrid">
-                <!-- Dreams will be loaded here -->
+                <!-- Dream Card 2 -->
+                <div class="dream-card">
+                    <div class="dream-card-header">
+                        <div class="dream-card-avatar">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <div class="dream-card-info">
+                            <h3>أحمد محمود</h3>
+                            <span>منذ ٥ ساعات</span>
+                        </div>
+                    </div>
+                    <div class="dream-card-content">
+                        رأيت نفسي في غابة كبيرة وكل الحيوانات تتحدث معي. كان حلماً غريباً جداً...
+                    </div>
+                    <div class="dream-card-footer">
+                        <div class="dream-card-stats">
+                            <span class="dream-card-stat">
+                                <i class="fas fa-heart"></i> ١٥٦
+                            </span>
+                            <span class="dream-card-stat">
+                                <i class="fas fa-comment"></i> ٢٣
+                            </span>
+                        </div>
+                        <a href="pages/dream.html?id=2" class="dream-card-link">
+                            اقرأ المزيد <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Dream Card 3 -->
+                <div class="dream-card">
+                    <div class="dream-card-header">
+                        <div class="dream-card-avatar">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <div class="dream-card-info">
+                            <h3>ندى خالد</h3>
+                            <span>منذ يوم</span>
+                        </div>
+                    </div>
+                    <div class="dream-card-content">
+                        حلمت أنني وجدت كنزاً دفيناً تحت شجرة كبيرة. عندما فتحت الصندوق، وجدت كتاباً قديماً...
+                    </div>
+                    <div class="dream-card-footer">
+                        <div class="dream-card-stats">
+                            <span class="dream-card-stat">
+                                <i class="fas fa-heart"></i> ٨٩
+                            </span>
+                            <span class="dream-card-stat">
+                                <i class="fas fa-comment"></i> ١٢
+                            </span>
+                        </div>
+                        <a href="pages/dream.html?id=3" class="dream-card-link">
+                            اقرأ المزيد <i class="fas fa-arrow-left"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Dream Realm</h4>
+                <ul>
+                    <li><a href="#">عن الموقع</a></li>
+                    <li><a href="#">المدونة</a></li>
+                    <li><a href="#">وظائف</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>المساعدة</h4>
+                <ul>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">الدعم الفني</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>القانونية</h4>
+                <ul>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">شروط الاستخدام</a></li>
+                    <li><a href="#">ملفات تعريف الارتباط</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Dream Realm - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
 
     <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop">
@@ -156,6 +245,38 @@
 
     <!-- Main JavaScript -->
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/particles.js"></script>
+    <script>
+        // Initialize particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 3}px;
+                    height: ${Math.random() * 3}px;
+                    background: rgba(255, 255, 255, 0.5);
+                    border-radius: 50%;
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    animation: float ${5 + Math.random() * 10}s linear infinite;
+                    opacity: ${Math.random() * 0.5};
+                `;
+                container.appendChild(particle);
+            }
+        }
+        
+        // Add float animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                from { transform: translateY(0) translateX(0); }
+                to { transform: translateY(-100px) translateX(${Math.random() * 50}px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        createParticles();
+    </script>
 </body>
 </html>
