@@ -1,5 +1,4 @@
-// ================ Dream Realm - النسخة النهائية ================
-// جميع الأرقام حقيقية - القائمة الجانبية تعمل
+// ================ DREAM REALM LEGENDARY - الكود الأسطوري ================
 
 // ================ Firebase Configuration ================
 const firebaseConfig = {
@@ -12,7 +11,6 @@ const firebaseConfig = {
     appId: "1:15273062983:web:4686593dc46bda7907b762"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const auth = firebase.auth();
@@ -25,12 +23,12 @@ let allDreams = [];
 
 // ================ تشغيل كل شيء عند تحميل الصفحة ================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('✨ Dream Realm جاهز للعمل');
+    console.log('✨ Dream Realm Legendary - جاهز للعمل');
     
+    initStars();
+    initTypewriter();
     initHeader();
     initBackToTop();
-    initMobileMenu(); // القائمة الجانبية تعمل الآن
-    initBackButton();
     initAuth();
     loadStats();
     loadDreams();
@@ -38,80 +36,191 @@ document.addEventListener('DOMContentLoaded', () => {
     initSearch();
     initFilters();
     initPagination();
+    updateTimeBasedColors();
 });
 
-// ================ القائمة الجانبية للجوال (معدلة وتعمل 100%) ================
-function initMobileMenu() {
-    const menuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.getElementById('mobileSidebar');
-    const closeBtn = document.getElementById('closeSidebar');
-    const overlay = document.getElementById('overlay');
+// ================ 1. خلفية النجوم ================
+function initStars() {
+    const starsContainer = document.getElementById('stars');
+    if (!starsContainer) return;
     
-    console.log('Mobile Menu Elements:', { menuBtn, sidebar, closeBtn, overlay });
+    for (let i = 0; i < 200; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        const size = Math.random() * 3;
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const duration = 2 + Math.random() * 5;
+        
+        star.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}%;
+            top: ${y}%;
+            animation-duration: ${duration}s;
+            animation-delay: ${Math.random() * 5}s;
+        `;
+        
+        starsContainer.appendChild(star);
+    }
+}
+
+// ================ 2. تأثير الكتابة التلقائية ================
+function initTypewriter() {
+    const element = document.getElementById('typewriter');
+    if (!element) return;
     
-    if (!menuBtn || !sidebar || !closeBtn || !overlay) {
-        console.error('❌ عناصر القائمة الجانبية غير موجودة');
-        return;
+    const words = [
+        'أهلاً بك في عالم الأحلام',
+        'شارك أحلامك مع العالم',
+        'اكتشف عوالم جديدة',
+        'Dream Realm'
+    ];
+    
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    function type() {
+        const currentWord = words[wordIndex];
+        
+        if (isDeleting) {
+            element.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            element.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === currentWord.length) {
+            isDeleting = true;
+            setTimeout(type, 2000);
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            setTimeout(type, 500);
+        } else {
+            setTimeout(type, isDeleting ? 50 : 100);
+        }
     }
     
-    // فتح القائمة
-    menuBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('✅ فتح القائمة');
-        sidebar.classList.add('open');
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    });
+    type();
+}
+
+// ================ 3. تأثير الهيدر ================
+function initHeader() {
+    const header = document.getElementById('header');
+    if (!header) return;
     
-    // إغلاق القائمة
-    const closeMenu = (e) => {
-        if (e) {
-            e.preventDefault();
-            e.stopPropagation();
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
         }
-        console.log('✅ إغلاق القائمة');
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-    
-    closeBtn.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
-    
-    // إغلاق بالضغط على ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
-            closeMenu(e);
-        }
-    });
-    
-    // منع إغلاق القائمة عند النقر داخل sidebar
-    sidebar.addEventListener('click', (e) => {
-        e.stopPropagation();
     });
 }
 
-// ================ تحميل الإحصائيات الحقيقية ================
+// ================ 4. زر العودة للأعلى ================
+function initBackToTop() {
+    const backToTop = document.getElementById('backToTop');
+    if (!backToTop) return;
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+    
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ================ 5. ألوان متغيرة مع الوقت ================
+function updateTimeBasedColors() {
+    const hours = new Date().getHours();
+    let hue = 260; // افتراضي
+    
+    if (hours >= 5 && hours < 8) { // شروق الشمس
+        hue = 30;
+    } else if (hours >= 8 && hours < 17) { // نهار
+        hue = 210;
+    } else if (hours >= 17 && hours < 20) { // غروب
+        hue = 10;
+    } else { // ليل
+        hue = 260;
+    }
+    
+    document.documentElement.style.setProperty('--primary-hue', hue);
+}
+
+// ================ 6. نظام المصادقة ================
+function initAuth() {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            currentUser = user;
+            updateUIForLoggedInUser();
+            loadUserData(user.uid);
+        } else {
+            currentUser = null;
+            updateUIForLoggedOutUser();
+        }
+    });
+}
+
+function updateUIForLoggedInUser() {
+    const userMenu = document.getElementById('userMenu');
+    if (!userMenu || !currentUser) return;
+    
+    const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'مستخدم';
+    userMenu.innerHTML = `
+        <a href="profile.html" class="btn btn-outline">
+            <i class="fas fa-user"></i> ${username}
+        </a>
+        <button onclick="logout()" class="btn btn-outline">
+            <i class="fas fa-sign-out-alt"></i> خروج
+        </button>
+    `;
+}
+
+function updateUIForLoggedOutUser() {
+    const userMenu = document.getElementById('userMenu');
+    if (!userMenu) return;
+    
+    userMenu.innerHTML = `
+        <a href="login.html" class="btn btn-outline">دخول</a>
+        <a href="register.html" class="btn btn-primary">انضم</a>
+    `;
+}
+
+function logout() {
+    auth.signOut().then(() => {
+        showNotification('تم الخروج من العالم', 'info');
+        window.location.href = 'index.html';
+    });
+}
+
+// ================ 7. تحميل الإحصائيات ================
 function loadStats() {
     const statsRef = database.ref('stats');
     
     statsRef.on('value', (snapshot) => {
-        const stats = snapshot.val() || { dreams: 1247, users: 829, likes: 3456, today: 42 };
+        const stats = snapshot.val() || { dreams: 1247, users: 829, today: 42, likes: 3456 };
         
-        // تحديث كل عناصر الإحصائيات
         document.querySelectorAll('[data-stat]').forEach(el => {
             const stat = el.getAttribute('data-stat');
             if (stats[stat] !== undefined) {
                 el.textContent = stats[stat].toLocaleString('ar-EG');
             }
         });
-        
-        console.log('📊 إحصائيات محدثة:', stats);
     });
 }
 
-// ================ تحميل الأحلام الحقيقية ================
+// ================ 8. تحميل الأحلام ================
 function loadDreams() {
     const dreamsRef = database.ref('dreams').orderByChild('timestamp').limitToLast(20);
     
@@ -128,14 +237,12 @@ function loadDreams() {
             allDreams = dreamsArray;
             
             displayDreams(dreamsArray.slice(0, dreamsPerPage));
-            console.log(`📝 تم تحميل ${dreamsArray.length} حلم`);
         } else {
-            grid.innerHTML = '<p class="no-dreams">لا توجد أحلام بعد. كن أول من يشارك!</p>';
+            grid.innerHTML = '<p class="no-dreams">لا توجد أحلام بعد</p>';
         }
     });
 }
 
-// ================ عرض الأحلام ================
 function displayDreams(dreamsArray, append = false) {
     const grid = document.getElementById('dreamsGrid');
     if (!grid) return;
@@ -144,13 +251,13 @@ function displayDreams(dreamsArray, append = false) {
         grid.innerHTML = '';
     }
     
-    dreamsArray.forEach(([id, dream]) => {
+    dreamsArray.forEach(([id, dream], index) => {
         const card = createDreamCard(id, dream);
+        card.style.setProperty('--index', index + 1);
         grid.appendChild(card);
     });
 }
 
-// ================ إنشاء بطاقة حلم ================
 function createDreamCard(id, dream) {
     const card = document.createElement('div');
     card.className = 'dream-card';
@@ -162,7 +269,6 @@ function createDreamCard(id, dream) {
     const comments = dream.comments || 0;
     const username = dream.username || 'مستخدم';
     const initial = username.charAt(0).toUpperCase();
-    
     const isLiked = currentUser && dream.userLikes && dream.userLikes[currentUser.uid];
     
     card.innerHTML = `
@@ -182,7 +288,7 @@ function createDreamCard(id, dream) {
                     <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
                     <span class="like-count">${likes}</span>
                 </span>
-                <span class="dream-card-stat" onclick="viewComments('${id}')">
+                <span class="dream-card-stat" onclick="viewDream('${id}')">
                     <i class="far fa-comment"></i>
                     <span>${comments}</span>
                 </span>
@@ -196,13 +302,20 @@ function createDreamCard(id, dream) {
     return card;
 }
 
-// ================ نظام الإعجابات (يحدث الأرقام حقيقياً) ================
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    if (seconds < 60) return 'الآن';
+    if (seconds < 3600) return `منذ ${Math.floor(seconds / 60)} دقيقة`;
+    if (seconds < 86400) return `منذ ${Math.floor(seconds / 3600)} ساعة`;
+    return `منذ ${Math.floor(seconds / 86400)} يوم`;
+}
+
+// ================ 9. نظام الإعجابات ================
 function toggleLike(dreamId, element) {
     if (!currentUser) {
-        showNotification('يجب تسجيل الدخول أولاً', 'error');
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 1500);
+        showNotification('يجب الدخول أولاً', 'error');
+        setTimeout(() => window.location.href = 'login.html', 1500);
         return;
     }
     
@@ -215,14 +328,12 @@ function toggleLike(dreamId, element) {
             const userLikes = dream.userLikes || {};
             
             if (userLikes[currentUser.uid]) {
-                // إلغاء الإعجاب
                 delete userLikes[currentUser.uid];
                 dream.likes = (dream.likes || 1) - 1;
                 icon.classList.remove('fas');
                 icon.classList.add('far');
                 element.classList.remove('liked');
             } else {
-                // إعجاب
                 userLikes[currentUser.uid] = true;
                 dream.likes = (dream.likes || 0) + 1;
                 icon.classList.remove('far');
@@ -234,98 +345,16 @@ function toggleLike(dreamId, element) {
         }
         return dream;
     }).then(() => {
-        // تحديث العداد في الواجهة
         dreamRef.once('value').then((snapshot) => {
             const dream = snapshot.val();
             countSpan.textContent = dream.likes || 0;
         });
         
-        // تحديث إحصائيات الإعجابات
         database.ref('stats/likes').transaction((likes) => (likes || 0) + 1);
     });
 }
 
-// ================ نظام المصادقة ================
-function initAuth() {
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            currentUser = user;
-            updateUIForLoggedInUser();
-            loadUserData(user.uid);
-        } else {
-            currentUser = null;
-            updateUIForLoggedOutUser();
-        }
-    });
-}
-
-function updateUIForLoggedInUser() {
-    const userMenu = document.getElementById('userMenu');
-    const sidebarUser = document.getElementById('sidebarUser');
-    
-    if (userMenu && currentUser) {
-        const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'مستخدم';
-        userMenu.innerHTML = `
-            <a href="profile.html" class="btn btn-outline">
-                <i class="fas fa-user"></i> ${username}
-            </a>
-            <button onclick="logout()" class="btn btn-outline">
-                <i class="fas fa-sign-out-alt"></i> خروج
-            </button>
-        `;
-    }
-    
-    if (sidebarUser && currentUser) {
-        const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'مستخدم';
-        sidebarUser.innerHTML = `
-            <a href="profile.html" class="btn btn-outline" style="width:100%">
-                <i class="fas fa-user"></i> ${username}
-            </a>
-            <button onclick="logout()" class="btn btn-outline" style="width:100%">
-                <i class="fas fa-sign-out-alt"></i> خروج
-            </button>
-        `;
-    }
-}
-
-function updateUIForLoggedOutUser() {
-    const userMenu = document.getElementById('userMenu');
-    const sidebarUser = document.getElementById('sidebarUser');
-    
-    if (userMenu) {
-        userMenu.innerHTML = `
-            <a href="login.html" class="btn btn-outline">دخول</a>
-            <a href="register.html" class="btn btn-primary">انضم</a>
-        `;
-    }
-    
-    if (sidebarUser) {
-        sidebarUser.innerHTML = `
-            <a href="login.html" class="btn btn-outline" style="width:100%">دخول</a>
-            <a href="register.html" class="btn btn-primary" style="width:100%">انضم</a>
-        `;
-    }
-}
-
-function logout() {
-    auth.signOut().then(() => {
-        showNotification('تم تسجيل الخروج بنجاح', 'success');
-        window.location.href = 'index.html';
-    }).catch((error) => {
-        showNotification('حدث خطأ: ' + error.message, 'error');
-    });
-}
-
-function loadUserData(userId) {
-    database.ref('users/' + userId).once('value').then((snapshot) => {
-        const userData = snapshot.val();
-        if (userData) {
-            // تحديث واجهة المستخدم ببياناته
-        }
-    });
-}
-
-// ================ نظام تسجيل الدخول ================
+// ================ 10. نظام تسجيل الدخول ================
 function handleLogin(e) {
     e.preventDefault();
     
@@ -334,17 +363,13 @@ function handleLogin(e) {
     
     auth.signInWithEmailAndPassword(email, password)
         .then(() => {
-            showNotification('تم تسجيل الدخول بنجاح', 'success');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
+            showNotification('تم الدخول بنجاح', 'success');
+            setTimeout(() => window.location.href = 'index.html', 1500);
         })
-        .catch((error) => {
-            showNotification('خطأ: ' + error.message, 'error');
-        });
+        .catch((error) => showNotification(error.message, 'error'));
 }
 
-// ================ نظام التسجيل ================
+// ================ 11. نظام التسجيل ================
 function handleRegister(e) {
     e.preventDefault();
     
@@ -354,41 +379,32 @@ function handleRegister(e) {
     
     auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            // تحديث اسم المستخدم
-            return userCredential.user.updateProfile({
-                displayName: username
-            }).then(() => {
-                // حفظ بيانات المستخدم في قاعدة البيانات
+            return userCredential.user.updateProfile({ displayName: username }).then(() => {
                 return database.ref('users/' + userCredential.user.uid).set({
-                    username: username,
-                    email: email,
+                    username,
+                    email,
                     joinDate: new Date().toISOString(),
                     dreams: 0,
                     followers: 0,
                     following: 0
                 });
             }).then(() => {
-                // تحديث إحصائيات المستخدمين
                 database.ref('stats/users').transaction((users) => (users || 0) + 1);
             });
         })
         .then(() => {
-            showNotification('تم إنشاء الحساب بنجاح', 'success');
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 1500);
+            showNotification('تم إنشاء العالم', 'success');
+            setTimeout(() => window.location.href = 'login.html', 1500);
         })
-        .catch((error) => {
-            showNotification('خطأ: ' + error.message, 'error');
-        });
+        .catch((error) => showNotification(error.message, 'error'));
 }
 
-// ================ نظام إضافة حلم ================
+// ================ 12. نظام إضافة حلم ================
 function handleAddDream(e) {
     e.preventDefault();
     
     if (!currentUser) {
-        showNotification('يجب تسجيل الدخول أولاً', 'error');
+        showNotification('يجب الدخول أولاً', 'error');
         window.location.href = 'login.html';
         return;
     }
@@ -397,7 +413,7 @@ function handleAddDream(e) {
     const isPublic = document.getElementById('isPublic')?.checked || true;
     
     if (!dreamText.trim()) {
-        showNotification('يرجى كتابة الحلم', 'error');
+        showNotification('اكتب حلمك', 'error');
         return;
     }
     
@@ -408,59 +424,56 @@ function handleAddDream(e) {
         username: currentUser.displayName || currentUser.email?.split('@')[0] || 'مستخدم',
         text: dreamText,
         timestamp: firebase.database.ServerValue.TIMESTAMP,
-        isPublic: isPublic,
+        isPublic,
         likes: 0,
         comments: 0,
         userLikes: {}
     };
     
     dreamRef.set(dream).then(() => {
-        showNotification('تم تسجيل الحلم بنجاح', 'success');
+        showNotification('تم تسجيل الحلم', 'success');
         document.getElementById('dreamText').value = '';
         
-        // تحديث إحصائيات الأحلام
         database.ref('stats/dreams').transaction((dreams) => (dreams || 0) + 1);
         database.ref('stats/today').transaction((today) => (today || 0) + 1);
         
-        setTimeout(() => {
-            window.location.href = 'explore.html';
-        }, 1500);
+        setTimeout(() => window.location.href = 'explore.html', 1500);
     });
 }
 
-// ================ البحث ================
+// ================ 13. البحث ================
 function initSearch() {
     const searchInput = document.getElementById('searchInput');
     if (!searchInput) return;
     
-    let searchTimeout;
+    let timeout;
     
     searchInput.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
+        clearTimeout(timeout);
         
-        searchTimeout = setTimeout(() => {
-            const query = e.target.value.trim().toLowerCase();
+        timeout = setTimeout(() => {
+            const query = e.target.value.toLowerCase();
             
             if (query.length < 2) {
                 displayDreams(allDreams.slice(0, dreamsPerPage));
                 return;
             }
             
-            const filtered = allDreams.filter(([id, dream]) => {
-                return dream.text.toLowerCase().includes(query) ||
-                       (dream.username && dream.username.toLowerCase().includes(query));
-            });
+            const filtered = allDreams.filter(([id, dream]) => 
+                dream.text.toLowerCase().includes(query) ||
+                (dream.username && dream.username.toLowerCase().includes(query))
+            );
             
             displayDreams(filtered.slice(0, dreamsPerPage));
             
             if (filtered.length === 0) {
-                showNotification('لا توجد نتائج للبحث', 'info');
+                showNotification('لا توجد نتائج', 'info');
             }
         }, 500);
     });
 }
 
-// ================ الفلاتر ================
+// ================ 14. الفلاتر ================
 function initFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
@@ -496,10 +509,9 @@ function applyFilter(filter) {
     }
     
     displayDreams(filtered.slice(0, dreamsPerPage));
-    showNotification(`تم تطبيق الفلتر: ${filter}`, 'info');
 }
 
-// ================ التقسيم ================
+// ================ 15. التقسيم ================
 function initPagination() {
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     if (!loadMoreBtn) return;
@@ -514,18 +526,20 @@ function initPagination() {
             displayDreams(moreDreams, true);
         } else {
             loadMoreBtn.style.display = 'none';
-            showNotification('لا يوجد المزيد من الأحلام', 'info');
+            showNotification('انتهت الأحلام', 'info');
         }
     });
 }
 
-// ================ نظام الإشعارات ================
+// ================ 16. عرض الحلم ================
+function viewDream(dreamId) {
+    window.location.href = `dream.html?id=${dreamId}`;
+}
+
+// ================ 17. نظام الإشعارات ================
 function showNotification(message, type = 'success') {
-    // إزالة أي إشعار سابق
-    const oldNotification = document.querySelector('.notification');
-    if (oldNotification) {
-        oldNotification.remove();
-    }
+    const old = document.querySelector('.notification');
+    if (old) old.remove();
     
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -533,7 +547,6 @@ function showNotification(message, type = 'success') {
     let icon = 'fa-check-circle';
     if (type === 'error') icon = 'fa-exclamation-circle';
     if (type === 'info') icon = 'fa-info-circle';
-    if (type === 'warning') icon = 'fa-exclamation-triangle';
     
     notification.innerHTML = `
         <i class="fas ${icon}"></i>
@@ -542,150 +555,123 @@ function showNotification(message, type = 'success') {
     
     document.body.appendChild(notification);
     
-    // إظهار الإشعار
     setTimeout(() => notification.classList.add('show'), 10);
-    
-    // إخفاء بعد 3 ثوان
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
 
-// ================ دوال مساعدة ================
-function getTimeAgo(date) {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    
-    if (seconds < 60) return 'منذ لحظات';
-    if (seconds < 3600) return `منذ ${Math.floor(seconds / 60)} دقيقة`;
-    if (seconds < 86400) return `منذ ${Math.floor(seconds / 3600)} ساعة`;
-    return `منذ ${Math.floor(seconds / 86400)} يوم`;
-}
-
-function initHeader() {
-    const header = document.getElementById('header');
-    if (!header) return;
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.backdropFilter = 'blur(10px)';
-            header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
-        } else {
-            header.style.background = 'white';
-            header.style.backdropFilter = 'none';
-            header.style.boxShadow = '0 1px 2px rgba(0,0,0,0.05)';
+// ================ 18. تحميل بيانات المستخدم ================
+function loadUserData(userId) {
+    database.ref('users/' + userId).once('value').then((snapshot) => {
+        const userData = snapshot.val();
+        if (userData) {
+            // تحديث واجهة المستخدم
         }
     });
 }
 
-function initBackToTop() {
-    const backToTop = document.getElementById('backToTop');
-    if (!backToTop) return;
-    
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    });
-    
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
-
-function initBackButton() {
-    const backBtn = document.getElementById('backBtn');
-    if (backBtn) {
-        backBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.history.back();
-        });
-    }
-}
-
+// ================ 19. ربط النماذج ================
 function initForms() {
     const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
     
     const registerForm = document.getElementById('registerForm');
-    if (registerForm) {
-        registerForm.addEventListener('submit', handleRegister);
-    }
+    if (registerForm) registerForm.addEventListener('submit', handleRegister);
     
     const dreamForm = document.getElementById('dreamForm');
-    if (dreamForm) {
-        dreamForm.addEventListener('submit', handleAddDream);
-    }
+    if (dreamForm) dreamForm.addEventListener('submit', handleAddDream);
 }
 
-function viewComments(dreamId) {
-    window.location.href = `dream.html?id=${dreamId}#comments`;
-}
+// ================ 20. تصدير الدوال ================
+window.toggleLike = toggleLike;
+window.viewDream = viewDream;
+window.showNotification = showNotification;
+window.logout = logout;
 
-// ================ إضافة الأنماط اللازمة ================
+// ================ 21. إضافة الأنماط ================
 const styles = document.createElement('style');
 styles.textContent = `
     .notification {
         position: fixed;
-        top: 80px;
+        top: 100px;
         left: 50%;
         transform: translateX(-50%) translateY(-100px);
-        background: white;
-        color: var(--gray-900);
+        background: oklch(0.15 0.1 var(--primary-hue) / 0.9);
+        backdrop-filter: blur(10px);
+        color: white;
         padding: 1rem 2rem;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-lg);
+        border-radius: var(--radius-full);
+        border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+        box-shadow: var(--glow-primary);
         z-index: 9999;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        transition: transform 0.3s ease;
-        border-right: 4px solid var(--success);
-        min-width: 300px;
+        gap: 1rem;
+        transition: transform 0.3s;
     }
     
     .notification.show {
         transform: translateX(-50%) translateY(0);
     }
     
-    .notification-error {
-        border-right-color: var(--danger);
-    }
-    
-    .notification-warning {
-        border-right-color: var(--warning);
-    }
-    
-    .notification-info {
-        border-right-color: var(--info);
-    }
-    
     .notification i {
         font-size: 1.2rem;
     }
     
-    .notification-success i { color: var(--success); }
-    .notification-error i { color: var(--danger); }
-    .notification-warning i { color: var(--warning); }
-    .notification-info i { color: var(--info); }
+    .notification-success i { color: #10b981; }
+    .notification-error i { color: #ef4444; }
+    .notification-info i { color: #3b82f6; }
+    
+    .profile-tab {
+        padding: 0.5rem 1rem;
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        cursor: pointer;
+        font-size: 1rem;
+        position: relative;
+    }
+    
+    .profile-tab.active {
+        color: var(--text-primary);
+    }
+    
+    .profile-tab.active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, 
+            oklch(0.7 0.3 var(--primary-hue)), 
+            oklch(0.7 0.3 330));
+    }
     
     .no-dreams {
         text-align: center;
         padding: 4rem;
-        color: var(--gray-500);
+        color: var(--text-secondary);
         font-size: 1.2rem;
     }
 `;
 
 document.head.appendChild(styles);
 
-// ================ تصدير الدوال ================
-window.toggleLike = toggleLike;
-window.viewComments = viewComments;
-window.logout = logout;
-window.showNotification = showNotification;
+// ================ 22. تحديث الألوان كل دقيقة ================
+setInterval(updateTimeBasedColors, 60000);
+
+// ================ 23. معالجة الأخطاء ================
+window.addEventListener('error', (event) => {
+    console.error('خطأ:', event.error);
+    showNotification('حدث خطأ', 'error');
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+    console.error('وعد غير معالج:', event.reason);
+});
+
+// ================ تم الانتهاء ================
+console.log('✅ Dream Realm Legendary جاهز للعمل');
