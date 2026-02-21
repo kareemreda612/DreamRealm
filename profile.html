@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الملف الشخصي | Dream Realm</title>
+    <title>عالمي | Dream Realm</title>
     
     <!-- SEO -->
-    <meta name="description" content="الملف الشخصي في Dream Realm">
+    <meta name="description" content="عالمي الشخصي في Dream Realm - منصة الأحلام الأسطورية">
+    <meta name="keywords" content="أحلام, ملف شخصي, عالم الأحلام">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,163 +15,674 @@
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* تنسيقات إضافية خاصة بالملف الشخصي */
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .profile-stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent,
+                oklch(0.7 0.3 var(--primary-hue) / 0.3),
+                oklch(0.7 0.3 330 / 0.3),
+                transparent
+            );
+            animation: rotate 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .profile-stat-card:hover::before {
+            opacity: 1;
+        }
+        
+        .profile-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .profile-stat-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, 
+                oklch(0.7 0.3 var(--primary-hue)), 
+                oklch(0.7 0.3 330));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .profile-stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .about-item {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            border-radius: var(--radius-lg);
+            padding: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .about-item:hover {
+            border-color: oklch(0.7 0.3 var(--primary-hue));
+            box-shadow: 0 0 20px oklch(0.7 0.3 var(--primary-hue) / 0.3);
+        }
+        
+        .about-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .about-label i {
+            color: oklch(0.7 0.3 var(--primary-hue));
+        }
+        
+        .about-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .followers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .follower-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            border-radius: var(--radius-lg);
+            padding: 1.2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .follower-card:hover {
+            transform: translateY(-5px);
+            border-color: oklch(0.7 0.3 var(--primary-hue));
+            box-shadow: var(--glow-primary);
+        }
+        
+        .follower-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, 
+                oklch(0.7 0.3 var(--primary-hue)), 
+                oklch(0.7 0.3 330));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .follower-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+        
+        .follower-username {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .follow-btn {
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-full);
+            background: transparent;
+            border: 1px solid oklch(0.7 0.3 var(--primary-hue));
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+        
+        .follow-btn:hover {
+            background: oklch(0.7 0.3 var(--primary-hue) / 0.2);
+            box-shadow: 0 0 20px oklch(0.7 0.3 var(--primary-hue));
+        }
+        
+        .follow-btn.following {
+            background: oklch(0.7 0.3 var(--primary-hue));
+            color: white;
+            border-color: transparent;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            border-radius: var(--radius-xl);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .edit-profile-btn {
+            background: linear-gradient(135deg, 
+                oklch(0.7 0.3 var(--primary-hue)), 
+                oklch(0.7 0.3 330));
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .edit-profile-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow-primary);
+        }
+        
+        .tab-container {
+            margin-top: 2rem;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab-button {
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s;
+            border-radius: var(--radius-full) var(--radius-full) 0 0;
+        }
+        
+        .tab-button:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-button.active {
+            color: var(--text-primary);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                oklch(0.7 0.3 var(--primary-hue)), 
+                oklch(0.7 0.3 330));
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .settings-section {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .settings-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .settings-title i {
+            color: oklch(0.7 0.3 var(--primary-hue));
+        }
+        
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+        }
+        
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-label {
+            color: var(--text-secondary);
+        }
+        
+        .settings-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: oklch(0 0 0 / 0.3);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 20px;
+            height: 20px;
+            background: oklch(0.7 0.3 var(--primary-hue));
+            border-radius: 50%;
+            transition: right 0.3s;
+        }
+        
+        .toggle-switch.active::after {
+            right: 28px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+
     <!-- Header -->
     <header id="header">
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-cloud-moon"></i>
+                <i class="fas fa-cloud-moon logo-icon"></i>
                 <span>Dream Realm</span>
             </div>
             
             <nav class="nav-menu">
-                <a href="index.html">الرئيسية</a>
-                <a href="explore.html">استكشف</a>
-                <a href="profile.html" class="active">ملفي</a>
-                <a href="dream.html">سجل حلم</a>
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="explore.html" class="nav-link">استكشف</a>
+                <a href="profile.html" class="nav-link active">عالمي</a>
+                <a href="dream.html" class="nav-link">سجل حلم</a>
             </nav>
             
             <div class="user-actions" id="userMenu">
                 <a href="login.html" class="btn btn-outline">دخول</a>
                 <a href="register.html" class="btn btn-primary">انضم</a>
             </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
-
-    <!-- Mobile Sidebar -->
-    <div class="mobile-sidebar" id="mobileSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <i class="fas fa-cloud-moon"></i>
-                <span>Dream Realm</span>
-            </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-            <a href="explore.html"><i class="fas fa-compass"></i> استكشف</a>
-            <a href="profile.html"><i class="fas fa-user"></i> ملفي</a>
-            <a href="dream.html"><i class="fas fa-pen"></i> سجل حلم</a>
-        </nav>
-        <div class="sidebar-user" id="sidebarUser">
-            <a href="login.html" class="btn btn-outline">دخول</a>
-            <a href="register.html" class="btn btn-primary">انضم</a>
-        </div>
-    </div>
-    <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
     <main>
         <div class="container">
-            <!-- Back Button -->
-            <a href="#" class="back-btn" id="backBtn">
-                <i class="fas fa-arrow-right"></i> رجوع
-            </a>
-
             <!-- Profile Header -->
             <div class="profile-header">
                 <div class="profile-cover"></div>
+                <div class="profile-avatar">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
                 <div class="profile-info">
-                    <div class="profile-avatar">
-                        <div class="profile-avatar-img">
-                            <i class="fas fa-user-astronaut"></i>
+                    <h1 class="profile-name" id="profileName">مستكشف الأحلام</h1>
+                    <div class="profile-username" id="profileUsername">@dreamer</div>
+                    <div class="profile-bio" id="profileBio">
+                        أحلم وأشارك أحلامي مع العالم. كل حلم هو بوابة إلى عالم جديد.
+                    </div>
+                    
+                    <!-- Profile Stats Cards -->
+                    <div class="profile-stats-grid">
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-icon">
+                                <i class="fas fa-cloud-moon"></i>
+                            </div>
+                            <div class="profile-stat-number" id="profileDreamsCount">٢٥٦</div>
+                            <div class="profile-stat-label">أحلام</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="profile-stat-number" id="profileFollowersCount">١٫٤ك</div>
+                            <div class="profile-stat-label">متابعون</div>
+                        </div>
+                        <div class="profile-stat-card">
+                            <div class="profile-stat-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="profile-stat-number" id="profileFollowingCount">٨٩٠</div>
+                            <div class="profile-stat-label">يتابع</div>
                         </div>
                     </div>
-                    <div class="profile-details">
-                        <h1 class="profile-name" id="profileName">أحمد كريم</h1>
-                        <div class="profile-username" id="profileUsername">@ahmed</div>
-                        <div class="profile-bio" id="profileBio">
-                            حالم منذ 2025 ✨ أحب مشاركة أحلامي مع العالم
-                        </div>
-                        
-                        <div class="profile-stats">
-                            <div class="profile-stat">
-                                <div class="profile-stat-value" id="profileDreams">٢٥٦</div>
-                                <div class="profile-stat-label">حلم</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="profile-stat-value" id="profileFollowers">١٫٤ك</div>
-                                <div class="profile-stat-label">متابع</div>
-                            </div>
-                            <div class="profile-stat">
-                                <div class="profile-stat-value" id="profileFollowing">٨٩٠</div>
-                                <div class="profile-stat-label">يتابع</div>
-                            </div>
-                        </div>
-                        
-                        <div class="profile-actions">
-                            <button class="btn btn-primary" onclick="editProfile()">
-                                <i class="fas fa-edit"></i> تعديل الملف
-                            </button>
-                            <button class="btn btn-outline" onclick="shareProfile()">
-                                <i class="fas fa-share-alt"></i> مشاركة
-                            </button>
-                        </div>
-                    </div>
+                    
+                    <button class="edit-profile-btn" onclick="editProfile()">
+                        <i class="fas fa-edit"></i>
+                        تعديل عالمي
+                    </button>
                 </div>
-                
-                <div class="profile-tabs">
-                    <button class="profile-tab active" data-tab="dreams">الأحلام</button>
-                    <button class="profile-tab" data-tab="about">حول</button>
-                    <button class="profile-tab" data-tab="followers">المتابعون</button>
-                    <button class="profile-tab" data-tab="following">يتابع</button>
-                </div>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('dreams')">
+                    <i class="fas fa-cloud-moon"></i> أحلامي
+                </button>
+                <button class="tab-button" onclick="switchTab('about')">
+                    <i class="fas fa-user"></i> عني
+                </button>
+                <button class="tab-button" onclick="switchTab('followers')">
+                    <i class="fas fa-users"></i> متابعون
+                </button>
+                <button class="tab-button" onclick="switchTab('following')">
+                    <i class="fas fa-user-plus"></i> أتابع
+                </button>
+                <button class="tab-button" onclick="switchTab('settings')">
+                    <i class="fas fa-cog"></i> إعدادات
+                </button>
             </div>
 
             <!-- Tab Content: Dreams -->
-            <div class="tab-content active" id="tab-dreams">
-                <div class="dreams-grid" id="profileDreamsGrid"></div>
+            <div id="tab-dreams" class="tab-content active">
+                <div class="dreams-grid" id="profileDreamsGrid">
+                    <!-- سيتم تحميل الأحلام هنا -->
+                </div>
+                <div id="profileNoDreams" class="empty-state" style="display: none;">
+                    <i class="fas fa-cloud-moon"></i>
+                    <h3>لا توجد أحلام بعد</h3>
+                    <p>ابدأ رحلتك وسجل أول حلم لك</p>
+                    <a href="dream.html" class="btn btn-primary" style="margin-top: 1rem;">
+                        <i class="fas fa-pen"></i> سجل حلمك
+                    </a>
+                </div>
             </div>
 
             <!-- Tab Content: About -->
-            <div class="tab-content" id="tab-about" style="display: none;">
-                <div style="background: white; border-radius: var(--radius-lg); padding: 2rem;">
-                    <h3 style="margin-bottom: 1.5rem;">معلومات شخصية</h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
-                        <div>
-                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">الاسم</div>
-                            <div style="font-weight: 600;" id="aboutName">أحمد كريم</div>
+            <div id="tab-about" class="tab-content">
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-info-circle"></i>
+                        معلومات شخصية
+                    </h3>
+                    <div class="about-grid">
+                        <div class="about-item">
+                            <div class="about-label">
+                                <i class="fas fa-user"></i>
+                                الاسم الكامل
+                            </div>
+                            <div class="about-value" id="aboutFullName">مستكشف الأحلام</div>
                         </div>
-                        <div>
-                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">البريد الإلكتروني</div>
-                            <div style="font-weight: 600;" id="aboutEmail">ahmed@dreamrealm.com</div>
+                        <div class="about-item">
+                            <div class="about-label">
+                                <i class="fas fa-envelope"></i>
+                                البريد الإلكتروني
+                            </div>
+                            <div class="about-value" id="aboutEmail">dreamer@dreamrealm.com</div>
                         </div>
-                        <div>
-                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">تاريخ الانضمام</div>
-                            <div style="font-weight: 600;" id="aboutJoinDate">١٥ يناير ٢٠٢٥</div>
+                        <div class="about-item">
+                            <div class="about-label">
+                                <i class="fas fa-calendar"></i>
+                                تاريخ الانضمام
+                            </div>
+                            <div class="about-value" id="aboutJoinDate">يناير ٢٠٢٥</div>
                         </div>
-                        <div>
-                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">البلد</div>
-                            <div style="font-weight: 600;" id="aboutCountry">مصر</div>
+                        <div class="about-item">
+                            <div class="about-label">
+                                <i class="fas fa-map-marker-alt"></i>
+                                البلد
+                            </div>
+                            <div class="about-value" id="aboutCountry">عالم الأحلام</div>
+                        </div>
+                        <div class="about-item">
+                            <div class="about-label">
+                                <i class="fas fa-globe"></i>
+                                الموقع
+                            </div>
+                            <div class="about-value" id="aboutWebsite">dreamrealm.com</div>
+                        </div>
+                        <div class="about-item">
+                            <div class="about-label">
+                                <i class="fas fa-birthday-cake"></i>
+                                تاريخ الميلاد
+                            </div>
+                            <div class="about-value" id="aboutBirthday">١ يناير</div>
                         </div>
                     </div>
-                    
-                    <h3 style="margin: 2rem 0 1rem;">عن نفسي</h3>
-                    <p style="color: var(--gray-600); line-height: 1.8;" id="aboutBio">
-                        حالم منذ 2025 ✨ أحب مشاركة أحلامي مع العالم. أؤمن أن الأحلام هي نوافذ إلى عوالم أخرى.
-                    </p>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-heart"></i>
+                        الاهتمامات
+                    </h3>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <span class="dream-tag">أحلام طيران</span>
+                        <span class="dream-tag">أحلام غريبة</span>
+                        <span class="dream-tag">تفسير أحلام</span>
+                        <span class="dream-tag">أحلام ملونة</span>
+                        <span class="dream-tag">كوابيس</span>
+                        <span class="dream-tag">أحلام سعيدة</span>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-star"></i>
+                        الإنجازات
+                    </h3>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <i class="fas fa-crown" style="font-size: 2rem; color: gold;"></i>
+                            <div style="font-size: 0.8rem;">أول حالم</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-fire" style="font-size: 2rem; color: orange;"></i>
+                            <div style="font-size: 0.8rem;">١٠٠ حلم</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-heart" style="font-size: 2rem; color: red;"></i>
+                            <div style="font-size: 0.8rem;">١٠٠٠ إعجاب</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Tab Content: Followers -->
-            <div class="tab-content" id="tab-followers" style="display: none;">
-                <div style="background: white; border-radius: var(--radius-lg); padding: 2rem;">
-                    <p style="text-align: center; color: var(--gray-500);">سيتم عرض المتابعين هنا</p>
+            <div id="tab-followers" class="tab-content">
+                <div class="followers-grid" id="followersGrid">
+                    <!-- سيتم تحميل المتابعين هنا -->
+                </div>
+                <div id="noFollowers" class="empty-state" style="display: none;">
+                    <i class="fas fa-users"></i>
+                    <h3>لا يوجد متابعون بعد</h3>
+                    <p>شارك أحلامك ليكتشفك الآخرون</p>
                 </div>
             </div>
 
             <!-- Tab Content: Following -->
-            <div class="tab-content" id="tab-following" style="display: none;">
-                <div style="background: white; border-radius: var(--radius-lg); padding: 2rem;">
-                    <p style="text-align: center; color: var(--gray-500);">سيتم عرض الأشخاص الذين تتابعهم هنا</p>
+            <div id="tab-following" class="tab-content">
+                <div class="followers-grid" id="followingGrid">
+                    <!-- سيتم تحميل من يتابعهم هنا -->
+                </div>
+                <div id="noFollowing" class="empty-state" style="display: none;">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>لا تتابع أحداً بعد</h3>
+                    <p>استكشف الأحلام وتابع المبدعين</p>
+                    <a href="explore.html" class="btn btn-primary" style="margin-top: 1rem;">
+                        <i class="fas fa-compass"></i> استكشف
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tab Content: Settings -->
+            <div id="tab-settings" class="tab-content">
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-user-cog"></i>
+                        إعدادات الحساب
+                    </h3>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">البريد الإلكتروني</span>
+                        <span class="settings-value" id="settingsEmail">dreamer@dreamrealm.com</span>
+                        <button class="btn btn-outline" style="padding: 0.3rem 1rem;" onclick="changeEmail()">تغيير</button>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">كلمة السر</span>
+                        <span class="settings-value">••••••••</span>
+                        <button class="btn btn-outline" style="padding: 0.3rem 1rem;" onclick="changePassword()">تغيير</button>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">اسم المستخدم</span>
+                        <span class="settings-value" id="settingsUsername">@dreamer</span>
+                        <button class="btn btn-outline" style="padding: 0.3rem 1rem;" onclick="changeUsername()">تغيير</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-bell"></i>
+                        الإشعارات
+                    </h3>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">إشعارات الإعجابات</span>
+                        <div class="toggle-switch active" onclick="toggleNotification(this)"></div>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">إشعارات التعليقات</span>
+                        <div class="toggle-switch active" onclick="toggleNotification(this)"></div>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">إشعارات المتابعين</span>
+                        <div class="toggle-switch" onclick="toggleNotification(this)"></div>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">النشرة البريدية</span>
+                        <div class="toggle-switch active" onclick="toggleNotification(this)"></div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-lock"></i>
+                        الخصوصية
+                    </h3>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">حساب خاص</span>
+                        <div class="toggle-switch" onclick="togglePrivacy(this)"></div>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">ظهور النشاط</span>
+                        <div class="toggle-switch active" onclick="togglePrivacy(this)"></div>
+                    </div>
+                    
+                    <div class="settings-row">
+                        <span class="settings-label">العلامات</span>
+                        <div class="toggle-switch active" onclick="togglePrivacy(this)"></div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="settings-title">
+                        <i class="fas fa-trash"></i>
+                        حذف الحساب
+                    </h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        بعد حذف حسابك، لا يمكن استعادته مرة أخرى. سيتم حذف جميع أحلامك وبياناتك نهائياً.
+                    </p>
+                    <button class="btn btn-outline" style="color: #ef4444; border-color: #ef4444;" onclick="deleteAccount()">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        حذف الحساب نهائياً
+                    </button>
                 </div>
             </div>
         </div>
@@ -182,7 +694,7 @@
             <div class="footer-col">
                 <h4>Dream Realm</h4>
                 <ul>
-                    <li><a href="#">عن الموقع</a></li>
+                    <li><a href="#">عن العالم</a></li>
                     <li><a href="#">المدونة</a></li>
                     <li><a href="#">وظائف</a></li>
                 </ul>
@@ -190,17 +702,17 @@
             <div class="footer-col">
                 <h4>المساعدة</h4>
                 <ul>
-                    <li><a href="#">الأسئلة الشائعة</a></li>
-                    <li><a href="#">الدعم الفني</a></li>
+                    <li><a href="#">الأسئلة</a></li>
+                    <li><a href="#">الدعم</a></li>
                     <li><a href="#">اتصل بنا</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>القانونية</h4>
                 <ul>
-                    <li><a href="#">سياسة الخصوصية</a></li>
-                    <li><a href="#">شروط الاستخدام</a></li>
-                    <li><a href="#">ملفات تعريف الارتباط</a></li>
+                    <li><a href="#">الخصوصية</a></li>
+                    <li><a href="#">الشروط</a></li>
+                    <li><a href="#">ملفات تعريف</a></li>
                 </ul>
             </div>
         </div>
@@ -219,27 +731,219 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
     
-    <!-- Main JavaScript -->
+    <!-- Main Script -->
     <script src="script.js"></script>
     
     <script>
         // دوال الملف الشخصي
-        function editProfile() {
-            showNotification('سيتم إضافة خاصية التعديل قريباً', 'info');
+        function switchTab(tabId) {
+            // إخفاء كل التبويبات
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // إظهار التبويب المحدد
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            
+            // تحديث الأزرار
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
         
-        function shareProfile() {
-            const url = window.location.href;
-            if (navigator.share) {
-                navigator.share({
-                    title: 'ملفي في Dream Realm',
-                    url: url
-                });
-            } else {
-                navigator.clipboard.writeText(url);
-                showNotification('تم نسخ الرابط', 'success');
+        function editProfile() {
+            showNotification('قريباً - خاصية تعديل الملف الشخصي', 'info');
+        }
+        
+        function changeEmail() {
+            showNotification('قريباً - تغيير البريد الإلكتروني', 'info');
+        }
+        
+        function changePassword() {
+            showNotification('قريباً - تغيير كلمة السر', 'info');
+        }
+        
+        function changeUsername() {
+            showNotification('قريباً - تغيير اسم المستخدم', 'info');
+        }
+        
+        function toggleNotification(element) {
+            element.classList.toggle('active');
+            showNotification('تم تحديث الإعدادات', 'success');
+        }
+        
+        function togglePrivacy(element) {
+            element.classList.toggle('active');
+            showNotification('تم تحديث إعدادات الخصوصية', 'success');
+        }
+        
+        function deleteAccount() {
+            if (confirm('هل أنت متأكد؟ لا يمكن التراجع عن هذا الإجراء')) {
+                showNotification('تم حذف الحساب', 'error');
             }
         }
+        
+        // تحميل أحلام المستخدم
+        function loadUserDreams() {
+            const dreamsGrid = document.getElementById('profileDreamsGrid');
+            const noDreams = document.getElementById('profileNoDreams');
+            
+            if (currentUser) {
+                database.ref('dreams').orderByChild('userId').equalTo(currentUser.uid).limitToLast(10).once('value').then((snapshot) => {
+                    const dreams = snapshot.val();
+                    
+                    if (dreams) {
+                        noDreams.style.display = 'none';
+                        dreamsGrid.innerHTML = '';
+                        
+                        Object.entries(dreams).reverse().forEach(([id, dream], index) => {
+                            const card = document.createElement('div');
+                            card.className = 'dream-card';
+                            card.style.setProperty('--index', index + 1);
+                            
+                            const date = dream.timestamp ? new Date(dream.timestamp) : new Date();
+                            const timeAgo = getTimeAgo(date);
+                            
+                            card.innerHTML = `
+                                <div class="dream-card-header">
+                                    <div class="dream-card-avatar">${dream.username?.charAt(0).toUpperCase() || '👤'}</div>
+                                    <div class="dream-card-info">
+                                        <div class="dream-card-name">${dream.username || 'مستخدم'}</div>
+                                        <div class="dream-card-time">${timeAgo}</div>
+                                    </div>
+                                </div>
+                                <div class="dream-card-content">
+                                    ${dream.text.substring(0, 150)}${dream.text.length > 150 ? '...' : ''}
+                                </div>
+                                <div class="dream-card-footer">
+                                    <div class="dream-card-stats">
+                                        <span class="dream-card-stat">
+                                            <i class="fas fa-heart"></i>
+                                            <span>${dream.likes || 0}</span>
+                                        </span>
+                                        <span class="dream-card-stat">
+                                            <i class="fas fa-comment"></i>
+                                            <span>${dream.comments || 0}</span>
+                                        </span>
+                                    </div>
+                                    <a href="dream.html?id=${id}" class="dream-card-link">
+                                        اقرأ المزيد <i class="fas fa-arrow-left"></i>
+                                    </a>
+                                </div>
+                            `;
+                            
+                            dreamsGrid.appendChild(card);
+                        });
+                    } else {
+                        noDreams.style.display = 'block';
+                    }
+                });
+            }
+        }
+        
+        // تحميل المتابعين
+        function loadFollowers() {
+            const followersGrid = document.getElementById('followersGrid');
+            const noFollowers = document.getElementById('noFollowers');
+            
+            // بيانات تجريبية
+            const followers = [
+                { name: 'سارة الأحمد', username: '@sara', dreams: 156 },
+                { name: 'أحمد كريم', username: '@ahmed', dreams: 89 },
+                { name: 'ندى خالد', username: '@nada', dreams: 234 }
+            ];
+            
+            if (followers.length > 0) {
+                noFollowers.style.display = 'none';
+                followersGrid.innerHTML = '';
+                
+                followers.forEach(follower => {
+                    const card = document.createElement('div');
+                    card.className = 'follower-card';
+                    card.innerHTML = `
+                        <div class="follower-avatar">${follower.name.charAt(0)}</div>
+                        <div class="follower-name">${follower.name}</div>
+                        <div class="follower-username">${follower.username}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">
+                            ${follower.dreams} حلم
+                        </div>
+                        <button class="follow-btn following" onclick="toggleFollow(this)">
+                            <i class="fas fa-check"></i> متابع
+                        </button>
+                    `;
+                    followersGrid.appendChild(card);
+                });
+            }
+        }
+        
+        // تحميل من يتابعهم
+        function loadFollowing() {
+            const followingGrid = document.getElementById('followingGrid');
+            const noFollowing = document.getElementById('noFollowing');
+            
+            // بيانات تجريبية
+            const following = [
+                { name: 'محمد علي', username: '@mohamed', dreams: 45 },
+                { name: 'فاطمة الزهراء', username: '@fatma', dreams: 67 },
+                { name: 'يوسف عماد', username: '@youssef', dreams: 123 }
+            ];
+            
+            if (following.length > 0) {
+                noFollowing.style.display = 'none';
+                followingGrid.innerHTML = '';
+                
+                following.forEach(f => {
+                    const card = document.createElement('div');
+                    card.className = 'follower-card';
+                    card.innerHTML = `
+                        <div class="follower-avatar">${f.name.charAt(0)}</div>
+                        <div class="follower-name">${f.name}</div>
+                        <div class="follower-username">${f.username}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">
+                            ${f.dreams} حلم
+                        </div>
+                        <button class="follow-btn following" onclick="toggleFollow(this)">
+                            <i class="fas fa-check"></i> متابع
+                        </button>
+                    `;
+                    followingGrid.appendChild(card);
+                });
+            }
+        }
+        
+        // تحديث إحصائيات الملف الشخصي
+        function updateProfileStats() {
+            if (currentUser) {
+                database.ref('dreams').orderByChild('userId').equalTo(currentUser.uid).once('value').then((snapshot) => {
+                    const dreams = snapshot.val();
+                    const count = dreams ? Object.keys(dreams).length : 0;
+                    document.getElementById('profileDreamsCount').textContent = count.toLocaleString('ar-EG');
+                });
+            }
+        }
+        
+        // دالة المتابعة/إلغاء المتابعة
+        function toggleFollow(btn) {
+            btn.classList.toggle('following');
+            if (btn.classList.contains('following')) {
+                btn.innerHTML = '<i class="fas fa-check"></i> متابع';
+                showNotification('تمت المتابعة', 'success');
+            } else {
+                btn.innerHTML = 'متابعة';
+                showNotification('تم إلغاء المتابعة', 'info');
+            }
+        }
+        
+        // تحميل البيانات عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                loadUserDreams();
+                loadFollowers();
+                loadFollowing();
+                updateProfileStats();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
