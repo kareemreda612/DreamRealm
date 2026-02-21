@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي | Dream Realm</title>
+    
+    <!-- SEO -->
+    <meta name="description" content="الملف الشخصي في Dream Realm">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-cloud-moon"></i>
+                <span>Dream Realm</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html">الرئيسية</a>
+                <a href="explore.html">استكشف</a>
+                <a href="profile.html" class="active">ملفي</a>
+                <a href="dream.html">سجل حلم</a>
+            </nav>
+            
+            <div class="user-actions" id="userMenu">
+                <a href="login.html" class="btn btn-outline">دخول</a>
+                <a href="register.html" class="btn btn-primary">انضم</a>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-cloud-moon"></i>
+                <span>Dream Realm</span>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+            <a href="explore.html"><i class="fas fa-compass"></i> استكشف</a>
+            <a href="profile.html"><i class="fas fa-user"></i> ملفي</a>
+            <a href="dream.html"><i class="fas fa-pen"></i> سجل حلم</a>
+        </nav>
+        <div class="sidebar-user" id="sidebarUser">
+            <a href="login.html" class="btn btn-outline">دخول</a>
+            <a href="register.html" class="btn btn-primary">انضم</a>
+        </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Back Button -->
+            <a href="#" class="back-btn" id="backBtn">
+                <i class="fas fa-arrow-right"></i> رجوع
+            </a>
+
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-cover"></div>
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <div class="profile-avatar-img">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                    </div>
+                    <div class="profile-details">
+                        <h1 class="profile-name" id="profileName">أحمد كريم</h1>
+                        <div class="profile-username" id="profileUsername">@ahmed</div>
+                        <div class="profile-bio" id="profileBio">
+                            حالم منذ 2025 ✨ أحب مشاركة أحلامي مع العالم
+                        </div>
+                        
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <div class="profile-stat-value" id="profileDreams">٢٥٦</div>
+                                <div class="profile-stat-label">حلم</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-value" id="profileFollowers">١٫٤ك</div>
+                                <div class="profile-stat-label">متابع</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-value" id="profileFollowing">٨٩٠</div>
+                                <div class="profile-stat-label">يتابع</div>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" onclick="editProfile()">
+                                <i class="fas fa-edit"></i> تعديل الملف
+                            </button>
+                            <button class="btn btn-outline" onclick="shareProfile()">
+                                <i class="fas fa-share-alt"></i> مشاركة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-tabs">
+                    <button class="profile-tab active" data-tab="dreams">الأحلام</button>
+                    <button class="profile-tab" data-tab="about">حول</button>
+                    <button class="profile-tab" data-tab="followers">المتابعون</button>
+                    <button class="profile-tab" data-tab="following">يتابع</button>
+                </div>
+            </div>
+
+            <!-- Tab Content: Dreams -->
+            <div class="tab-content active" id="tab-dreams">
+                <div class="dreams-grid" id="profileDreamsGrid"></div>
+            </div>
+
+            <!-- Tab Content: About -->
+            <div class="tab-content" id="tab-about" style="display: none;">
+                <div style="background: white; border-radius: var(--radius-lg); padding: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;">معلومات شخصية</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+                        <div>
+                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">الاسم</div>
+                            <div style="font-weight: 600;" id="aboutName">أحمد كريم</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">البريد الإلكتروني</div>
+                            <div style="font-weight: 600;" id="aboutEmail">ahmed@dreamrealm.com</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">تاريخ الانضمام</div>
+                            <div style="font-weight: 600;" id="aboutJoinDate">١٥ يناير ٢٠٢٥</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--gray-500); margin-bottom: 0.25rem;">البلد</div>
+                            <div style="font-weight: 600;" id="aboutCountry">مصر</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 2rem 0 1rem;">عن نفسي</h3>
+                    <p style="color: var(--gray-600); line-height: 1.8;" id="aboutBio">
+                        حالم منذ 2025 ✨ أحب مشاركة أحلامي مع العالم. أؤمن أن الأحلام هي نوافذ إلى عوالم أخرى.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab Content: Followers -->
+            <div class="tab-content" id="tab-followers" style="display: none;">
+                <div style="background: white; border-radius: var(--radius-lg); padding: 2rem;">
+                    <p style="text-align: center; color: var(--gray-500);">سيتم عرض المتابعين هنا</p>
+                </div>
+            </div>
+
+            <!-- Tab Content: Following -->
+            <div class="tab-content" id="tab-following" style="display: none;">
+                <div style="background: white; border-radius: var(--radius-lg); padding: 2rem;">
+                    <p style="text-align: center; color: var(--gray-500);">سيتم عرض الأشخاص الذين تتابعهم هنا</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Dream Realm</h4>
+                <ul>
+                    <li><a href="#">عن الموقع</a></li>
+                    <li><a href="#">المدونة</a></li>
+                    <li><a href="#">وظائف</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>المساعدة</h4>
+                <ul>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">الدعم الفني</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>القانونية</h4>
+                <ul>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">شروط الاستخدام</a></li>
+                    <li><a href="#">ملفات تعريف الارتباط</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Dream Realm - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+    
+    <script>
+        // دوال الملف الشخصي
+        function editProfile() {
+            showNotification('سيتم إضافة خاصية التعديل قريباً', 'info');
+        }
+        
+        function shareProfile() {
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ملفي في Dream Realm',
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(url);
+                showNotification('تم نسخ الرابط', 'success');
+            }
+        }
+    </script>
+</body>
+</html>
