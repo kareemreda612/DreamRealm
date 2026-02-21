@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملفي | Dream Realm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <header class="glass-header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-cloud-moon"></i>
+                <span>Dream Realm</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="../index.html">الرئيسية</a>
+                <a href="explore.html">استكشف</a>
+                <a href="profile.html" class="active">ملفي</a>
+                <a href="dream.html">سجل حلم</a>
+            </nav>
+            <div class="user-actions">
+                <a href="login.html" class="btn btn-outline">دخول</a>
+                <a href="register.html" class="btn btn-primary">انضم</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" style="padding-top: 100px;">
+        <div class="profile-container">
+            <div class="profile-header-card">
+                <div class="profile-cover"></div>
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle fa-5x"></i>
+                    </div>
+                    <h2>أحمد كريم</h2>
+                    <p class="profile-bio">حالم منذ 2025 • أحب مشاركة أحلامي</p>
+                    
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-value">127</span>
+                            <span class="stat-label">حلم</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">1.2k</span>
+                            <span class="stat-label">متابع</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">890</span>
+                            <span class="stat-label">يتابع</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary">تعديل الملف</button>
+                </div>
+            </div>
+            
+            <div class="profile-tabs">
+                <button class="tab-btn active">أحلامي</button>
+                <button class="tab-btn">المفضلة</button>
+                <button class="tab-btn">المتابعون</button>
+            </div>
+            
+            <div class="dreams-grid" id="profileDreamsGrid"></div>
+        </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>

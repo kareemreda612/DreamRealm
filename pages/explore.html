@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استكشف | Dream Realm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div id="canvas-container"></div>
+    
+    <header class="glass-header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-cloud-moon"></i>
+                <span>Dream Realm</span>
+            </div>
+            <nav class="nav-menu">
+                <a href="../index.html">الرئيسية</a>
+                <a href="explore.html" class="active">استكشف</a>
+                <a href="profile.html">ملفي</a>
+                <a href="dream.html">سجل حلم</a>
+            </nav>
+            <div class="user-actions">
+                <a href="login.html" class="btn btn-outline">دخول</a>
+                <a href="register.html" class="btn btn-primary">انضم</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content" style="padding-top: 100px;">
+        <div class="container">
+            <h1 class="section-title">استكشف <span class="gradient-text">الأحلام</span></h1>
+            
+            <div class="filters">
+                <button class="filter-btn active">الكل</button>
+                <button class="filter-btn">الأحدث</button>
+                <button class="filter-btn">الأكثر إعجاباً</button>
+                <button class="filter-btn">المميزة</button>
+            </div>
+            
+            <div class="dreams-grid" id="exploreDreamsGrid"></div>
+        </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/particles.js"></script>
+</body>
+</html>
