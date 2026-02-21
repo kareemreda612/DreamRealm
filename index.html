@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Realm | عالم الأحلام</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="أول عالم افتراضي لتسجيل وتحليل الأحلام بتقنية ثلاثية الأبعاد">
+    <meta name="keywords" content="أحلام, ذكاء اصطناعي, ثلاثي الأبعاد, تفسير أحلام">
+    <meta name="author" content="Dream Realm">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Dream Realm - عالم الأحلام">
+    <meta property="og:description" content="ادخل عالم أحلامك الخاص">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts - Arabic Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Three.js for 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 3D Canvas Container -->
+    <div id="canvas-container"></div>
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <p>جاري فتح بوابة الأحلام...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent" style="display: none;">
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="header-container">
+                <div class="logo">
+                    <i class="fas fa-cloud-moon"></i>
+                    <span>Dream Realm</span>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="index.html" class="active">الرئيسية</a>
+                    <a href="pages/explore.html">استكشف</a>
+                    <a href="pages/profile.html">ملفي</a>
+                    <a href="pages/dream.html">سجل حلم</a>
+                </nav>
+                
+                <div class="user-actions">
+                    <a href="pages/login.html" class="btn btn-outline">دخول</a>
+                    <a href="pages/register.html" class="btn btn-primary">انضم</a>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="glitch-text" data-text="أهلاً بك في عالم الأحلام">
+                    أهلاً بك في <span class="gradient-text">عالم الأحلام</span>
+                </h1>
+                <p class="hero-description">أول منصة في العالم تستخدم الذكاء الاصطناعي والتقنيات ثلاثية الأبعاد لتحليل وتفسير أحلامك</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalDreams">0</div>
+                        <div class="stat-label">حلم مسجل</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">حالم</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="activeNow">0</div>
+                        <div class="stat-label">نشط الآن</div>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <a href="pages/dream.html" class="btn btn-primary btn-large">
+                        <i class="fas fa-pen"></i> سجل حلمك الآن
+                    </a>
+                    <a href="pages/explore.html" class="btn btn-outline btn-large">
+                        <i class="fas fa-compass"></i> استكشف الأحلام
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2 class="section-title">لماذا <span class="gradient-text">Dream Realm</span>؟</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>عالم ثلاثي الأبعاد</h3>
+                    <p>تصفح أحلامك في فضاء ثلاثي الأبعاد تفاعلي</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ذكاء اصطناعي</h3>
+                    <p>تحليل عميق لأحلامك باستخدام أحدث تقنيات AI</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>تفسير فوري</h3>
+                    <p>احصل على تفسير لحلمك في ثوانٍ</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>مجتمع الأحلام</h3>
+                    <p>شارك أحلامك مع ملايين المستخدمين</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Dreams -->
+        <section class="recent-dreams">
+            <h2 class="section-title">أحدث <span class="gradient-text">الأحلام</span></h2>
+            
+            <div class="dreams-grid" id="recentDreamsGrid">
+                <!-- Dreams will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Main JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/particles.js"></script>
+</body>
+</html>
