@@ -11,9 +11,131 @@
     
     <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* تنسيقات إضافية بسيطة */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .dreams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .dream-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid #334155;
+        }
+        
+        .dream-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dream-card-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .dream-card-name {
+            font-weight: 600;
+        }
+        
+        .dream-card-time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .dream-card-content {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        .dream-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.5rem;
+            border-top: 1px solid #334155;
+        }
+        
+        .dream-card-likes {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--danger);
+            cursor: pointer;
+        }
+        
+        .dream-card-link {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary);
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header مع قائمة الصفحات الكاملة -->
     <header id="header">
         <div class="header-container">
             <div class="logo">
@@ -21,11 +143,14 @@
                 <span>Dream Realm</span>
             </div>
             
+            <!-- قائمة الصفحات الكاملة -->
             <nav class="nav-menu">
                 <a href="index.html" class="active">الرئيسية</a>
                 <a href="explore.html">استكشف</a>
                 <a href="profile.html">ملفي</a>
                 <a href="dream.html">سجل حلم</a>
+                <a href="login.html">دخول</a>
+                <a href="register.html">تسجيل</a>
             </nav>
             
             <div class="user-actions" id="userMenu">
@@ -39,36 +164,39 @@
     <main>
         <div class="container">
             <!-- Hero Section -->
-            <section class="hero">
+            <section class="hero-section">
                 <h1>عالم الأحلام</h1>
                 <p>سجل أحلامك وشاركها مع العالم. كل الأحلام حقيقية من مستخدمين حقيقيين.</p>
                 
-                <!-- Stats -->
+                <!-- إحصائيات حقيقية من Firebase -->
                 <div class="stats-container">
                     <div class="stat-item">
-                        <div class="stat-number" data-stat="dreams">٠</div>
-                        <div class="stat-label">حلم مسجل</div>
+                        <div class="stat-number" id="totalDreams">٠</div>
+                        <div class="stat-label">إجمالي الأحلام</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" data-stat="users">٠</div>
-                        <div class="stat-label">حالم</div>
+                        <div class="stat-number" id="totalUsers">٠</div>
+                        <div class="stat-label">عدد الحالمين</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" data-stat="today">٠</div>
-                        <div class="stat-label">حلم اليوم</div>
+                        <div class="stat-number" id="todayDreams">٠</div>
+                        <div class="stat-label">أحلام اليوم</div>
                     </div>
                 </div>
                 
                 <div class="hero-buttons">
                     <a href="dream.html" class="btn btn-primary">سجل حلمك</a>
-                    <a href="explore.html" class="btn btn-outline">استكشف</a>
+                    <a href="explore.html" class="btn btn-outline">استكشف الأحلام</a>
                 </div>
             </section>
 
-            <!-- Recent Dreams -->
+            <!-- أحدث الأحلام -->
             <section>
                 <h2 style="margin-bottom: 1.5rem;">أحدث الأحلام</h2>
                 <div class="dreams-grid" id="recentDreams"></div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="explore.html" class="btn btn-outline">عرض المزيد</a>
+                </div>
             </section>
         </div>
     </main>
@@ -77,6 +205,165 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
-    <script src="script.js"></script>
+    
+    <script>
+        // ================ Firebase Configuration ================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDX_0F5dMZVp548piOKtko056NDf28UhVc",
+            authDomain: "dream-bank-2ed13.firebaseapp.com",
+            databaseURL: "https://dream-bank-2ed13-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "dream-bank-2ed13",
+            storageBucket: "dream-bank-2ed13.firebasestorage.app",
+            messagingSenderId: "15273062983",
+            appId: "1:15273062983:web:4686593dc46bda7907b762"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        // ================ تحميل الصفحة ================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRealStats();
+            loadRecentDreams();
+            checkAuth();
+        });
+
+        // ================ إحصائيات حقيقية ================
+        function loadRealStats() {
+            // إجمالي الأحلام
+            database.ref('dreams').once('value').then((snapshot) => {
+                const dreams = snapshot.val();
+                const count = dreams ? Object.keys(dreams).length : 0;
+                document.getElementById('totalDreams').textContent = count;
+            });
+            
+            // إجمالي المستخدمين
+            database.ref('users').once('value').then((snapshot) => {
+                const users = snapshot.val();
+                const count = users ? Object.keys(users).length : 0;
+                document.getElementById('totalUsers').textContent = count;
+            });
+            
+            // أحلام اليوم
+            const today = new Date().toDateString();
+            database.ref('dreams').once('value').then((snapshot) => {
+                const dreams = snapshot.val();
+                let todayCount = 0;
+                
+                if (dreams) {
+                    Object.values(dreams).forEach(dream => {
+                        if (dream.timestamp) {
+                            const dreamDate = new Date(dream.timestamp).toDateString();
+                            if (dreamDate === today) todayCount++;
+                        }
+                    });
+                }
+                document.getElementById('todayDreams').textContent = todayCount;
+            });
+        }
+
+        // ================ أحدث الأحلام ================
+        function loadRecentDreams() {
+            database.ref('dreams').orderByChild('timestamp').limitToLast(6).once('value').then((snapshot) => {
+                const dreams = snapshot.val();
+                const grid = document.getElementById('recentDreams');
+                
+                if (!grid) return;
+                grid.innerHTML = '';
+                
+                if (dreams) {
+                    Object.entries(dreams).reverse().forEach(([id, dream]) => {
+                        const card = createDreamCard(id, dream);
+                        grid.appendChild(card);
+                    });
+                } else {
+                    grid.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد أحلام بعد</p>';
+                }
+            });
+        }
+
+        function createDreamCard(id, dream) {
+            const card = document.createElement('div');
+            card.className = 'dream-card';
+            
+            const date = dream.timestamp ? new Date(dream.timestamp).toLocaleDateString('ar-EG') : 'تاريخ غير معروف';
+            const username = dream.username || 'مستخدم';
+            const initial = username.charAt(0).toUpperCase();
+            const likesCount = dream.likes ? Object.keys(dream.likes).length : 0;
+            
+            card.innerHTML = `
+                <div class="dream-card-header">
+                    <div class="dream-card-avatar">${initial}</div>
+                    <div>
+                        <div class="dream-card-name">${username}</div>
+                        <div class="dream-card-time">${date}</div>
+                    </div>
+                </div>
+                <div class="dream-card-content">${dream.text.substring(0, 150)}${dream.text.length > 150 ? '...' : ''}</div>
+                <div class="dream-card-footer">
+                    <span class="dream-card-likes" onclick="toggleLike('${id}')">
+                        <i class="far fa-heart"></i>
+                        <span>${likesCount}</span>
+                    </span>
+                    <a href="dream.html?id=${id}" class="dream-card-link">اقرأ المزيد</a>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // ================ الإعجاب ================
+        window.toggleLike = function(dreamId) {
+            if (!auth.currentUser) {
+                alert('يجب تسجيل الدخول أولاً');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const dreamRef = database.ref('dreams/' + dreamId);
+            
+            dreamRef.transaction((dream) => {
+                if (dream) {
+                    if (!dream.likes) dream.likes = {};
+                    
+                    if (dream.likes[auth.currentUser.uid]) {
+                        delete dream.likes[auth.currentUser.uid];
+                    } else {
+                        dream.likes[auth.currentUser.uid] = true;
+                    }
+                }
+                return dream;
+            });
+        };
+
+        // ================ التحقق من تسجيل الدخول ================
+        function checkAuth() {
+            auth.onAuthStateChanged((user) => {
+                const userMenu = document.getElementById('userMenu');
+                if (!userMenu) return;
+                
+                if (user) {
+                    const username = user.displayName || user.email?.split('@')[0] || 'مستخدم';
+                    userMenu.innerHTML = `
+                        <a href="profile.html" class="btn btn-outline">${username}</a>
+                        <button onclick="logout()" class="btn btn-outline">خروج</button>
+                    `;
+                } else {
+                    userMenu.innerHTML = `
+                        <a href="login.html" class="btn btn-outline">دخول</a>
+                        <a href="register.html" class="btn btn-primary">انضم</a>
+                    `;
+                }
+            });
+        }
+
+        window.logout = function() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        };
+    </script>
 </body>
 </html>
