@@ -3,573 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عرض الحلم | Dream Realm</title>
+    <title>سجل حلم | Dream Realm</title>
     
-    <!-- SEO -->
-    <meta name="description" content="تفاصيل الحلم في Dream Realm">
-    
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
     
     <style>
-        .dream-container {
-            max-width: 800px;
-            margin: 0 auto;
+        .dream-form-container {
+            max-width: 700px;
+            margin: 2rem auto;
         }
         
-        .dream-detail {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-        
-        .dream-detail-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .dream-detail-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        
-        .dream-detail-info {
-            flex: 1;
-        }
-        
-        .dream-detail-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        
-        .dream-detail-username {
-            color: var(--gray-500);
-            font-size: 0.9rem;
-        }
-        
-        .dream-detail-time {
-            color: var(--gray-500);
-            font-size: 0.9rem;
-        }
-        
-        .dream-detail-content {
-            padding: 2rem;
-        }
-        
-        .dream-detail-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--gray-900);
-        }
-        
-        .dream-detail-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--gray-700);
-            margin-bottom: 2rem;
-        }
-        
-        .dream-detail-image {
-            width: 100%;
-            border-radius: var(--radius-md);
-            margin: 1.5rem 0;
-        }
-        
-        .dream-detail-tags {
-            display: flex;
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 0.5rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
+            margin: 1rem 0;
         }
         
-        .dream-tag {
-            padding: 0.25rem 1rem;
-            background: var(--gray-100);
-            border-radius: var(--radius-full);
-            color: var(--gray-600);
-            font-size: 0.85rem;
-        }
-        
-        .dream-detail-stats {
-            padding: 1rem 2rem;
-            border-top: 1px solid var(--gray-200);
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            gap: 2rem;
-        }
-        
-        .dream-detail-stat {
+        .emotion-item {
+            padding: 0.5rem;
+            background: oklch(0 0 0 / 0.3);
+            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--gray-600);
-        }
-        
-        .dream-detail-stat i {
-            font-size: 1.2rem;
-        }
-        
-        .dream-detail-actions {
-            padding: 1.5rem 2rem;
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .dream-action-btn {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            background: white;
-            color: var(--gray-700);
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            transition: all 0.3s;
         }
         
-        .dream-action-btn:hover {
-            background: var(--gray-100);
+        .emotion-item:hover {
+            border-color: oklch(0.7 0.3 var(--primary-hue));
+            background: oklch(0.7 0.3 var(--primary-hue) / 0.1);
         }
         
-        .dream-action-btn.liked {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            border-color: rgba(239, 68, 68, 0.3);
-        }
-        
-        .comments-section {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-sm);
-            padding: 2rem;
-        }
-        
-        .comments-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .add-comment {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .comment-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-        
-        .comment-input-wrapper {
-            flex: 1;
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .comment-input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            font-size: 0.95rem;
-        }
-        
-        .comment-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .comment-submit {
-            padding: 0 1.5rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-        }
-        
-        .comments-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
-        .comment {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .comment-content {
-            flex: 1;
-        }
-        
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .comment-author {
-            font-weight: 600;
-            color: var(--gray-900);
-        }
-        
-        .comment-time {
-            color: var(--gray-500);
-            font-size: 0.8rem;
-        }
-        
-        .comment-text {
-            color: var(--gray-600);
-            line-height: 1.6;
-            margin-bottom: 0.5rem;
-        }
-        
-        .comment-actions {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .comment-action {
-            color: var(--gray-500);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        
-        .comment-action:hover {
-            color: var(--primary);
-        }
-        
-        .no-comments {
-            text-align: center;
-            padding: 3rem;
-            color: var(--gray-500);
+        .emotion-item.selected {
+            border-color: oklch(0.7 0.3 var(--primary-hue));
+            background: oklch(0.7 0.3 var(--primary-hue) / 0.2);
+            box-shadow: 0 0 20px oklch(0.7 0.3 var(--primary-hue));
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+
     <header id="header">
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-cloud-moon"></i>
+                <i class="fas fa-cloud-moon logo-icon"></i>
                 <span>Dream Realm</span>
             </div>
-            
             <nav class="nav-menu">
-                <a href="index.html">الرئيسية</a>
-                <a href="explore.html">استكشف</a>
-                <a href="profile.html">ملفي</a>
-                <a href="dream.html" class="active">سجل حلم</a>
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="explore.html" class="nav-link">استكشف</a>
+                <a href="profile.html" class="nav-link">عالمي</a>
+                <a href="dream.html" class="nav-link active">سجل حلم</a>
             </nav>
-            
             <div class="user-actions" id="userMenu">
                 <a href="login.html" class="btn btn-outline">دخول</a>
                 <a href="register.html" class="btn btn-primary">انضم</a>
             </div>
-            
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
         </div>
     </header>
 
-    <!-- Mobile Sidebar -->
-    <div class="mobile-sidebar" id="mobileSidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <i class="fas fa-cloud-moon"></i>
-                <span>Dream Realm</span>
-            </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-            <a href="explore.html"><i class="fas fa-compass"></i> استكشف</a>
-            <a href="profile.html"><i class="fas fa-user"></i> ملفي</a>
-            <a href="dream.html"><i class="fas fa-pen"></i> سجل حلم</a>
-        </nav>
-        <div class="sidebar-user" id="sidebarUser">
-            <a href="login.html" class="btn btn-outline">دخول</a>
-            <a href="register.html" class="btn btn-primary">انضم</a>
-        </div>
-    </div>
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Main Content -->
     <main>
-        <div class="container dream-container">
-            <!-- Back Button -->
-            <a href="#" class="back-btn" id="backBtn">
-                <i class="fas fa-arrow-right"></i> رجوع
-            </a>
-
-            <!-- Dream Detail -->
-            <div class="dream-detail" id="dreamDetail">
-                <!-- سيتم تعبئتها عبر JavaScript -->
-            </div>
-
-            <!-- Comments Section -->
-            <div class="comments-section" id="commentsSection">
-                <h3 class="comments-title">
-                    <i class="far fa-comment"></i>
-                    التعليقات
-                </h3>
+        <div class="container dream-form-container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; text-align: center;">سجل حلمك</h1>
+            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem;">اكتب حلمك وشاركه مع العالم</p>
+            
+            <form id="dreamForm" class="auth-container" style="max-width: 100%;">
+                <div class="form-group">
+                    <label>عنوان الحلم (اختياري)</label>
+                    <input type="text" id="dreamTitle" placeholder="مثال: حلمت أني أطير">
+                </div>
                 
-                <!-- Add Comment -->
-                <div class="add-comment" id="addCommentSection">
-                    <div class="comment-avatar" id="commentAvatar">👤</div>
-                    <div class="comment-input-wrapper">
-                        <input type="text" class="comment-input" id="commentInput" placeholder="أكتب تعليقك...">
-                        <button class="comment-submit" onclick="submitComment()">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
+                <div class="form-group">
+                    <label>تفاصيل الحلم</label>
+                    <textarea id="dreamText" rows="6" placeholder="اكتب كل تفاصيل حلمك..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>ما هي مشاعرك في الحلم؟</label>
+                    <div class="emotion-grid">
+                        <div class="emotion-item" onclick="toggleEmotion(this)">
+                            <span>😊</span> سعادة
+                        </div>
+                        <div class="emotion-item" onclick="toggleEmotion(this)">
+                            <span>😢</span> حزن
+                        </div>
+                        <div class="emotion-item" onclick="toggleEmotion(this)">
+                            <span>😨</span> خوف
+                        </div>
+                        <div class="emotion-item" onclick="toggleEmotion(this)">
+                            <span>😠</span> غضب
+                        </div>
+                        <div class="emotion-item" onclick="toggleEmotion(this)">
+                            <span>😲</span> دهشة
+                        </div>
+                        <div class="emotion-item" onclick="toggleEmotion(this)">
+                            <span>😌</span> هدوء
+                        </div>
                     </div>
                 </div>
-
-                <!-- Comments List -->
-                <div class="comments-list" id="commentsList">
-                    <div class="no-comments" id="noComments">
-                        لا توجد تعليقات بعد. كن أول من يعلق!
-                    </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isPublic" checked>
+                        مشاركة الحلم مع العالم
+                    </label>
                 </div>
-            </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-cloud-moon"></i> سجل حلمي
+                </button>
+            </form>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-col">
                 <h4>Dream Realm</h4>
                 <ul>
-                    <li><a href="#">عن الموقع</a></li>
-                    <li><a href="#">المدونة</a></li>
-                    <li><a href="#">وظائف</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>المساعدة</h4>
-                <ul>
-                    <li><a href="#">الأسئلة الشائعة</a></li>
-                    <li><a href="#">الدعم الفني</a></li>
-                    <li><a href="#">اتصل بنا</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>القانونية</h4>
-                <ul>
-                    <li><a href="#">سياسة الخصوصية</a></li>
-                    <li><a href="#">شروط الاستخدام</a></li>
-                    <li><a href="#">ملفات تعريف الارتباط</a></li>
+                    <li><a href="#">عن العالم</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 Dream Realm - جميع الحقوق محفوظة</p>
+            <p>© 2025 Dream Realm</p>
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
-    
-    <!-- Main JavaScript -->
     <script src="script.js"></script>
     
     <script>
-        // تحميل تفاصيل الحلم
-        const urlParams = new URLSearchParams(window.location.search);
-        const dreamId = urlParams.get('id');
-        
-        if (!dreamId) {
-            window.location.href = 'explore.html';
-        }
-        
-        // تحميل بيانات الحلم
-        database.ref('dreams/' + dreamId).once('value').then((snapshot) => {
-            const dream = snapshot.val();
-            
-            if (!dream) {
-                window.location.href = 'explore.html';
-                return;
-            }
-            
-            displayDream(dream);
-            loadComments(dreamId);
-        });
-        
-        function displayDream(dream) {
-            const container = document.getElementById('dreamDetail');
-            const date = dream.timestamp ? new Date(dream.timestamp).toLocaleString('ar-EG') : 'تاريخ غير معروف';
-            
-            container.innerHTML = `
-                <div class="dream-detail-header">
-                    <div class="dream-detail-avatar">${dream.username?.charAt(0).toUpperCase() || '👤'}</div>
-                    <div class="dream-detail-info">
-                        <div class="dream-detail-name">${dream.username || 'مستخدم'}</div>
-                        <div class="dream-detail-username">@${dream.username || 'user'}</div>
-                    </div>
-                    <div class="dream-detail-time">${date}</div>
-                </div>
-                <div class="dream-detail-content">
-                    <h1 class="dream-detail-title">${dream.title || 'حلم'}</h1>
-                    <p class="dream-detail-text">${dream.text}</p>
-                    <div class="dream-detail-tags">
-                        <span class="dream-tag">${dream.category || 'عام'}</span>
-                        ${dream.emotions ? dream.emotions.map(e => `<span class="dream-tag">${e}</span>`).join('') : ''}
-                    </div>
-                </div>
-                <div class="dream-detail-stats">
-                    <span class="dream-detail-stat">
-                        <i class="far fa-heart"></i>
-                        <span id="dreamLikes">${dream.likes || 0}</span>
-                    </span>
-                    <span class="dream-detail-stat">
-                        <i class="far fa-comment"></i>
-                        <span id="dreamComments">${dream.comments || 0}</span>
-                    </span>
-                </div>
-                <div class="dream-detail-actions">
-                    <button class="dream-action-btn" onclick="toggleLikeDream('${dreamId}')" id="likeBtn">
-                        <i class="${currentUser && dream.userLikes && dream.userLikes[currentUser.uid] ? 'fas' : 'far'} fa-heart"></i>
-                        إعجاب
-                    </button>
-                    <button class="dream-action-btn" onclick="shareDream('${dreamId}')">
-                        <i class="far fa-share-square"></i>
-                        مشاركة
-                    </button>
-                </div>
-            `;
-            
-            if (currentUser && dream.userLikes && dream.userLikes[currentUser.uid]) {
-                document.getElementById('likeBtn').classList.add('liked');
-            }
-        }
-        
-        function loadComments(dreamId) {
-            database.ref('comments/' + dreamId).orderByChild('timestamp').once('value').then((snapshot) => {
-                const comments = snapshot.val();
-                const list = document.getElementById('commentsList');
-                const noComments = document.getElementById('noComments');
-                
-                list.innerHTML = '';
-                
-                if (comments) {
-                    noComments.style.display = 'none';
-                    Object.entries(comments).reverse().forEach(([id, comment]) => {
-                        displayComment(comment);
-                    });
-                } else {
-                    noComments.style.display = 'block';
-                }
-            });
-        }
-        
-        function displayComment(comment) {
-            const list = document.getElementById('commentsList');
-            const date = comment.timestamp ? new Date(comment.timestamp).toLocaleString('ar-EG') : 'الآن';
-            
-            const commentEl = document.createElement('div');
-            commentEl.className = 'comment';
-            commentEl.innerHTML = `
-                <div class="comment-avatar">${comment.username?.charAt(0).toUpperCase() || '👤'}</div>
-                <div class="comment-content">
-                    <div class="comment-header">
-                        <span class="comment-author">${comment.username || 'مستخدم'}</span>
-                        <span class="comment-time">${date}</span>
-                    </div>
-                    <div class="comment-text">${comment.text}</div>
-                    <div class="comment-actions">
-                        <span class="comment-action" onclick="likeComment('${comment.id}')">إعجاب</span>
-                        <span class="comment-action" onclick="replyToComment('${comment.id}')">رد</span>
-                    </div>
-                </div>
-            `;
-            
-            list.appendChild(commentEl);
-        }
-        
-        function toggleLikeDream(dreamId) {
-            if (!currentUser) {
-                showNotification('يجب تسجيل الدخول أولاً', 'error');
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1500);
-                return;
-            }
-            
-            toggleLike(dreamId, document.querySelector('#likeBtn i'));
-        }
-        
-        function submitComment() {
-            const input = document.getElementById('commentInput');
-            const text = input.value.trim();
-            
-            if (!text) {
-                showNotification('يرجى كتابة التعليق', 'error');
-                return;
-            }
-            
-            addComment(dreamId, text);
-            input.value = '';
-        }
-        
-        function shareDream(dreamId) {
-            const url = window.location.href;
-            if (navigator.share) {
-                navigator.share({
-                    title: 'حلم في Dream Realm',
-                    url: url
-                });
-            } else {
-                navigator.clipboard.writeText(url);
-                showNotification('تم نسخ الرابط', 'success');
-            }
+        function toggleEmotion(element) {
+            element.classList.toggle('selected');
         }
     </script>
 </body>
