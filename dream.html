@@ -8,59 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        .dream-form-container {
-            max-width: 700px;
-            margin: 2rem auto;
-        }
-        
-        .emotion-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        
-        .emotion-item {
-            padding: 0.5rem;
-            background: oklch(0 0 0 / 0.3);
-            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .emotion-item:hover {
-            border-color: oklch(0.7 0.3 var(--primary-hue));
-            background: oklch(0.7 0.3 var(--primary-hue) / 0.1);
-        }
-        
-        .emotion-item.selected {
-            border-color: oklch(0.7 0.3 var(--primary-hue));
-            background: oklch(0.7 0.3 var(--primary-hue) / 0.2);
-            box-shadow: 0 0 20px oklch(0.7 0.3 var(--primary-hue));
-        }
-    </style>
 </head>
 <body>
-    <div class="cosmic-bg"></div>
-    <div class="stars" id="stars"></div>
-
-    <header id="header">
+    <header>
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-cloud-moon logo-icon"></i>
+                <i class="fas fa-cloud-moon"></i>
                 <span>Dream Realm</span>
             </div>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-link">الرئيسية</a>
-                <a href="explore.html" class="nav-link">استكشف</a>
-                <a href="profile.html" class="nav-link">عالمي</a>
-                <a href="dream.html" class="nav-link active">سجل حلم</a>
+                <a href="index.html">الرئيسية</a>
+                <a href="explore.html">استكشف</a>
+                <a href="profile.html">ملفي</a>
+                <a href="dream.html" class="active">سجل حلم</a>
+                <a href="login.html">دخول</a>
+                <a href="register.html">تسجيل</a>
             </nav>
             <div class="user-actions" id="userMenu">
                 <a href="login.html" class="btn btn-outline">دخول</a>
@@ -70,76 +32,29 @@
     </header>
 
     <main>
-        <div class="container dream-form-container">
-            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem; text-align: center;">سجل حلمك</h1>
-            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem;">اكتب حلمك وشاركه مع العالم</p>
-            
-            <form id="dreamForm" class="auth-container" style="max-width: 100%;">
-                <div class="form-group">
-                    <label>عنوان الحلم (اختياري)</label>
-                    <input type="text" id="dreamTitle" placeholder="مثال: حلمت أني أطير">
-                </div>
+        <div class="container">
+            <div class="auth-container">
+                <h2>سجل حلمك</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1.5rem;">اكتب حلمك وشاركه مع العالم</p>
                 
-                <div class="form-group">
-                    <label>تفاصيل الحلم</label>
-                    <textarea id="dreamText" rows="6" placeholder="اكتب كل تفاصيل حلمك..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label>ما هي مشاعرك في الحلم؟</label>
-                    <div class="emotion-grid">
-                        <div class="emotion-item" onclick="toggleEmotion(this)">
-                            <span>😊</span> سعادة
-                        </div>
-                        <div class="emotion-item" onclick="toggleEmotion(this)">
-                            <span>😢</span> حزن
-                        </div>
-                        <div class="emotion-item" onclick="toggleEmotion(this)">
-                            <span>😨</span> خوف
-                        </div>
-                        <div class="emotion-item" onclick="toggleEmotion(this)">
-                            <span>😠</span> غضب
-                        </div>
-                        <div class="emotion-item" onclick="toggleEmotion(this)">
-                            <span>😲</span> دهشة
-                        </div>
-                        <div class="emotion-item" onclick="toggleEmotion(this)">
-                            <span>😌</span> هدوء
-                        </div>
+                <form id="dreamForm">
+                    <div class="form-group">
+                        <label>تفاصيل الحلم</label>
+                        <textarea id="dreamText" rows="6" placeholder="اكتب حلمك هنا... (كلما كان أوضح كان أفضل)" required></textarea>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="isPublic" checked>
-                        مشاركة الحلم مع العالم
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    <i class="fas fa-cloud-moon"></i> سجل حلمي
-                </button>
-            </form>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Dream Realm</h4>
-                <ul>
-                    <li><a href="#">عن العالم</a></li>
-                </ul>
+                    
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" id="isPublic" checked style="width: auto;"> 
+                            مشاركة الحلم مع الجميع
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ الحلم</button>
+                </form>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2025 Dream Realm</p>
-        </div>
-    </footer>
-
-    <button class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    </main>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
@@ -147,9 +62,26 @@
     <script src="script.js"></script>
     
     <script>
-        function toggleEmotion(element) {
-            element.classList.toggle('selected');
-        }
+        document.getElementById('dreamForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const text = document.getElementById('dreamText').value.trim();
+            const isPublic = document.getElementById('isPublic').checked;
+            
+            if (!text) {
+                alert('اكتب حلمك أولاً');
+                return;
+            }
+            
+            submitDream(text, isPublic)
+                .then(() => {
+                    alert('تم حفظ الحلم بنجاح');
+                    window.location.href = 'explore.html';
+                })
+                .catch(error => {
+                    if (error) alert('حدث خطأ: ' + error.message);
+                });
+        });
     </script>
 </body>
 </html>
