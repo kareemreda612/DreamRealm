@@ -3,13 +3,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Realm | عالم الأحلام</title>
+    <title>Dream Realm | عالم الأحلام الأسطوري</title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="أقوى منصة عربية لتسجيل ومشاركة الأحلام - عالم الأحلام الأسطوري">
+    <meta name="keywords" content="أحلام, تفسير أحلام, مجتمع أحلام, عالم الأحلام, Dream Realm">
+    <meta name="author" content="Dream Realm">
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Dream Realm - عالم الأحلام الأسطوري">
+    <meta property="og:description" content="منصة أسطورية لتسجيل ومشاركة الأحلام">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/og-image.jpg">
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ================ تنسيقات الصفحة الرئيسية الأسطورية ================ */
+        
+        /* الخلفية الكونية المتحركة */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            animation: cosmicMove 30s ease infinite;
+        }
+        
+        @keyframes cosmicMove {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+        }
+        
+        /* النجوم المتحركة */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        /* القسم البطولي */
+        .hero-section {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 1rem;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease infinite;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px var(--primary)); }
+            50% { filter: drop-shadow(0 0 40px var(--secondary)); }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+        
+        /* الإحصائيات الكونية */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            position: relative;
+            padding: 1rem 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            min-width: 180px;
+        }
+        
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+        
+        .stat-item:hover::before {
+            opacity: 0.8;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        
+        /* الأزرار الأسطورية */
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn-legendary {
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .btn-legendary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            filter: blur(20px);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .btn-legendary:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-legendary:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+        
+        .btn-primary-legendary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-outline-legendary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--text-primary);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-outline-legendary:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+        }
+        
+        /* قسم المميزات */
+        .features-section {
+            padding: 5rem 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent,
+                var(--primary),
+                var(--secondary),
+                transparent
+            );
+            animation: rotate 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .feature-card:hover::before {
+            opacity: 0.15;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: iconFloat 3s ease infinite;
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* قسم أحدث الأحلام */
+        .recent-dreams-section {
+            padding: 5rem 0;
+        }
+        
+        .dreams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .dream-card-legendary {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dream-card-legendary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.5s;
+        }
+        
+        .dream-card-legendary:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .dream-card-legendary:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .dream-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dream-card-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .dream-card-name {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .dream-card-time {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .dream-card-content {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .dream-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .dream-card-likes {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--danger);
+            cursor: pointer;
+        }
+        
+        .dream-card-likes i {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+        
+        .dream-card-likes i:hover {
+            transform: scale(1.2);
+        }
+        
+        .dream-card-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .dream-card-link:hover {
+            color: var(--secondary);
+        }
+        
+        /* قسم الدعوة */
+        .cta-section {
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--radius-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), transparent);
+            border-radius: inherit;
+            z-index: -1;
+            animation: borderGlow 3s linear infinite;
+        }
+        
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .cta-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* قسم الشركاء */
+        .partners-section {
+            padding: 3rem 0;
+        }
+        
+        .partners-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .partner-item {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            transition: all 0.3s;
+            padding: 0.5rem 1.5rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: var(--radius-full);
+        }
+        
+        .partner-item:hover {
+            opacity: 1;
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.2);
+        }
+        
+        /* زر العودة للأعلى */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+        
+        /* تصميم متجاوب للهواتف */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .stats-container {
+                gap: 1rem;
+            }
+            
+            .stat-item {
+                min-width: 140px;
+                padding: 0.75rem 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn-legendary {
+                width: 100%;
+            }
+            
+            .features-grid,
+            .dreams-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-container {
+                padding: 2rem 1rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .partners-grid {
+                gap: 1rem;
+            }
+            
+            .partner-item {
+                font-size: 1rem;
+                padding: 0.4rem 1rem;
+            }
+            
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+    <div class="stars" id="stars"></div>
+
+    <!-- Header -->
     <header>
         <div class="header-container">
             <div class="logo">
@@ -17,11 +639,13 @@
                 <span>Dream Realm</span>
             </div>
             
+            <!-- القائمة الكاملة للصفحات -->
             <nav class="nav-menu">
                 <a href="index.html" class="active">الرئيسية</a>
                 <a href="explore.html">استكشف</a>
-                <a href="profile.html">ملفي</a>
+                <a href="profile.html">عالمي</a>
                 <a href="dream.html">سجل حلم</a>
+                <a href="dream-detail.html">تفاصيل</a>
                 <a href="login.html">دخول</a>
                 <a href="register.html">تسجيل</a>
             </nav>
@@ -33,12 +657,20 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main>
-        <div class="container">
-            <section class="hero-section">
-                <h1>عالم الأحلام</h1>
-                <p>سجل أحلامك وشاركها مع العالم. كل الأحلام حقيقية من مستخدمين حقيقيين.</p>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    عالم الأحلام الأسطوري
+                </h1>
+                <p class="hero-subtitle">
+                    أول منصة عربية أسطورية لتسجيل ومشاركة الأحلام. 
+                    ادخل عالمك الخاص، شارك أحلامك، واكتشف عوالم الآخرين.
+                </p>
                 
+                <!-- الإحصائيات الحقيقية -->
                 <div class="stats-container">
                     <div class="stat-item">
                         <div class="stat-number" id="totalDreams">٠</div>
@@ -54,21 +686,188 @@
                     </div>
                 </div>
                 
+                <!-- الأزرار الأسطورية -->
                 <div class="hero-buttons">
-                    <a href="dream.html" class="btn btn-primary">سجل حلمك</a>
-                    <a href="explore.html" class="btn btn-outline">استكشف الأحلام</a>
+                    <a href="dream.html" class="btn-legendary btn-primary-legendary">
+                        <i class="fas fa-pen"></i> سجل حلمك الآن
+                    </a>
+                    <a href="explore.html" class="btn-legendary btn-outline-legendary">
+                        <i class="fas fa-compass"></i> استكشف الأحلام
+                    </a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section>
-                <h2 style="margin-bottom: 1.5rem;">أحدث الأحلام</h2>
-                <div class="dreams-grid" id="recentDreams"></div>
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="explore.html" class="btn btn-outline">عرض المزيد</a>
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">لماذا عالم الأحلام هو الأفضل؟</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="feature-title">ذكاء اصطناعي متطور</h3>
+                        <p class="feature-description">
+                            نحلل أحلامك ونكتشف الأنماط المتكررة والرموز الخفية باستخدام أحدث تقنيات الذكاء الاصطناعي
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3 class="feature-title">خصوصية تامة</h3>
+                        <p class="feature-description">
+                            أنت من تتحكم بخصوصية أحلامك - اختر من يراها ومتى تشاركها مع العالم
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="feature-title">مجتمع عالمي</h3>
+                        <p class="feature-description">
+                            انضم لآلاف الحالمين من جميع أنحاء العالم واكتشف ثقافات وأحلام متنوعة
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="feature-title">تحليلات متقدمة</h3>
+                        <p class="feature-description">
+                            إحصائيات دقيقة عن أحلامك، أكثر الكلمات تكراراً، المشاعر السائدة، والاتجاهات
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <h3 class="feature-title">تفسير الأحلام</h3>
+                        <p class="feature-description">
+                            قاعدة بيانات ضخمة لتفسير الرموز والأحلام الشائعة مع تحديثات مستمرة
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h3 class="feature-title">تذكيرات يومية</h3>
+                        <p class="feature-description">
+                            احصل على تذكير يومي لتسجيل أحلامك قبل أن تنساها مع إحصائيات أسبوعية
+                        </p>
+                    </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
+
+        <!-- Recent Dreams Section -->
+        <section class="recent-dreams-section">
+            <div class="container">
+                <h2 class="section-title">أحدث الأحلام</h2>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                    تصفح آخر الأحلام التي شاركها المجتمع
+                </p>
+                
+                <div class="dreams-grid" id="recentDreams"></div>
+                
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="explore.html" class="btn-legendary btn-outline-legendary">
+                        عرض المزيد من الأحلام <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-container">
+                    <h2 class="cta-title">ابدأ رحلة أحلامك اليوم</h2>
+                    <p class="cta-description">
+                        انضم إلى آلاف المستخدمين الذين يوثقون أحلامهم يومياً. سجل الآن مجاناً وابدأ عالمك الخاص.
+                    </p>
+                    <div class="cta-buttons">
+                        <a href="register.html" class="btn-legendary btn-primary-legendary">
+                            <i class="fas fa-user-plus"></i> أنشئ حسابك مجاناً
+                        </a>
+                        <a href="login.html" class="btn-legendary btn-outline-legendary">
+                            <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section class="partners-section">
+            <div class="container">
+                <div class="partners-grid">
+                    <span class="partner-item">منصة أحلام</span>
+                    <span class="partner-item">تفسير أونلاين</span>
+                    <span class="partner-item">مختبر النوم</span>
+                    <span class="partner-item">أكاديمية الأحلام</span>
+                    <span class="partner-item">مركز الأبحاث</span>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>Dream Realm</h4>
+                <ul>
+                    <li><a href="#">عن العالم</a></li>
+                    <li><a href="#">المدونة</a></li>
+                    <li><a href="#">وظائف</a></li>
+                    <li><a href="#">الشروط</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>المساعدة</h4>
+                <ul>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">الدعم الفني</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                    <li><a href="#">اقتراحات</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>القانونية</h4>
+                <ul>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">شروط الاستخدام</a></li>
+                    <li><a href="#">ملفات تعريف الارتباط</a></li>
+                    <li><a href="#">الملكية الفكرية</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>تابعنا</h4>
+                <ul>
+                    <li><a href="#"><i class="fab fa-facebook"></i> فيسبوك</a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i> تويتر</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> إنستغرام</a></li>
+                    <li><a href="#"><i class="fab fa-tiktok"></i> تيك توك</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Dream Realm - جميع الحقوق محفوظة. صنع في عالم الأحلام ✨</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
@@ -77,14 +876,114 @@
     <script src="script.js"></script>
     
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load stats
+        // إنشاء النجوم
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            if (!starsContainer) return;
+            
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3;
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const duration = 2 + Math.random() * 5;
+                
+                star.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}%;
+                    top: ${y}%;
+                    animation-duration: ${duration}s;
+                    animation-delay: ${Math.random() * 5}s;
+                `;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // زر العودة للأعلى
+        function initBackToTop() {
+            const backToTop = document.getElementById('backToTop');
+            if (!backToTop) return;
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+            
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+        
+        // تحميل الإحصائيات
+        function loadStats() {
             getTotalDreams().then(count => document.getElementById('totalDreams').textContent = count);
             getTotalUsers().then(count => document.getElementById('totalUsers').textContent = count);
             getTodayDreams().then(count => document.getElementById('todayDreams').textContent = count);
+        }
+        
+        // تحميل أحدث الأحلام
+        function loadRecentDreams() {
+            database.ref('dreams').orderByChild('timestamp').limitToLast(6).once('value').then((snapshot) => {
+                const dreams = snapshot.val();
+                const grid = document.getElementById('recentDreams');
+                
+                if (!grid) return;
+                grid.innerHTML = '';
+                
+                if (dreams) {
+                    Object.entries(dreams).reverse().forEach(([id, dream]) => {
+                        if (dream.isPublic) {
+                            const card = createHomeDreamCard(id, dream);
+                            grid.appendChild(card);
+                        }
+                    });
+                }
+            });
+        }
+        
+        function createHomeDreamCard(id, dream) {
+            const card = document.createElement('div');
+            card.className = 'dream-card-legendary';
             
-            // Load recent dreams
-            loadDreams('recentDreams', 6);
+            const date = dream.timestamp ? new Date(dream.timestamp).toLocaleDateString('ar-EG') : 'تاريخ غير معروف';
+            const username = dream.username || 'مستخدم';
+            const initial = username.charAt(0).toUpperCase();
+            const likesCount = dream.likes ? Object.keys(dream.likes).length : 0;
+            
+            card.innerHTML = `
+                <div class="dream-card-header">
+                    <div class="dream-card-avatar">${initial}</div>
+                    <div>
+                        <div class="dream-card-name">${username}</div>
+                        <div class="dream-card-time">${date}</div>
+                    </div>
+                </div>
+                <div class="dream-card-content">${dream.text.substring(0, 150)}${dream.text.length > 150 ? '...' : ''}</div>
+                <div class="dream-card-footer">
+                    <span class="dream-card-likes" onclick="toggleLike('${id}')">
+                        <i class="far fa-heart"></i>
+                        <span class="likes-count-${id}">${likesCount}</span>
+                    </span>
+                    <a href="dream-detail.html?id=${id}" class="dream-card-link">اقرأ المزيد</a>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            initBackToTop();
+            loadStats();
+            loadRecentDreams();
         });
     </script>
 </body>
