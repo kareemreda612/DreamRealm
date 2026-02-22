@@ -5,23 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dream Realm | عالم الأحلام</title>
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Main CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header id="header">
+    <header>
         <div class="header-container">
             <div class="logo">
                 <i class="fas fa-cloud-moon"></i>
                 <span>Dream Realm</span>
             </div>
             
-            <!-- قائمة الصفحات الكاملة -->
             <nav class="nav-menu">
                 <a href="index.html" class="active">الرئيسية</a>
                 <a href="explore.html">استكشف</a>
@@ -38,15 +33,12 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main>
         <div class="container">
-            <!-- Hero Section -->
             <section class="hero-section">
                 <h1>عالم الأحلام</h1>
                 <p>سجل أحلامك وشاركها مع العالم. كل الأحلام حقيقية من مستخدمين حقيقيين.</p>
                 
-                <!-- إحصائيات حقيقية من Firebase -->
                 <div class="stats-container">
                     <div class="stat-item">
                         <div class="stat-number" id="totalDreams">٠</div>
@@ -68,7 +60,6 @@
                 </div>
             </section>
 
-            <!-- أحدث الأحلام -->
             <section>
                 <h2 style="margin-bottom: 1.5rem;">أحدث الأحلام</h2>
                 <div class="dreams-grid" id="recentDreams"></div>
@@ -79,182 +70,22 @@
         </div>
     </main>
 
-    <!-- Firebase -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+    <script src="script.js"></script>
     
     <script>
-        // ================ Firebase Configuration ================
-        const firebaseConfig = {
-            apiKey: "AIzaSyDX_0F5dMZVp548piOKtko056NDf28UhVc",
-            authDomain: "dream-bank-2ed13.firebaseapp.com",
-            databaseURL: "https://dream-bank-2ed13-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "dream-bank-2ed13",
-            storageBucket: "dream-bank-2ed13.firebasestorage.app",
-            messagingSenderId: "15273062983",
-            appId: "1:15273062983:web:4686593dc46bda7907b762"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const auth = firebase.auth();
-
-        // ================ تحميل الصفحة ================
         document.addEventListener('DOMContentLoaded', () => {
-            loadRealStats();
-            loadRecentDreams();
-            checkAuth();
+            // Load stats
+            getTotalDreams().then(count => document.getElementById('totalDreams').textContent = count);
+            getTotalUsers().then(count => document.getElementById('totalUsers').textContent = count);
+            getTodayDreams().then(count => document.getElementById('todayDreams').textContent = count);
+            
+            // Load recent dreams
+            loadDreams('recentDreams', 6);
         });
-
-        // ================ إحصائيات حقيقية ================
-        function loadRealStats() {
-            // إجمالي الأحلام
-            database.ref('dreams').once('value').then((snapshot) => {
-                const dreams = snapshot.val();
-                const count = dreams ? Object.keys(dreams).length : 0;
-                document.getElementById('totalDreams').textContent = count;
-            });
-            
-            // إجمالي المستخدمين
-            database.ref('users').once('value').then((snapshot) => {
-                const users = snapshot.val();
-                const count = users ? Object.keys(users).length : 0;
-                document.getElementById('totalUsers').textContent = count;
-            });
-            
-            // أحلام اليوم
-            const today = new Date().toDateString();
-            database.ref('dreams').once('value').then((snapshot) => {
-                const dreams = snapshot.val();
-                let todayCount = 0;
-                
-                if (dreams) {
-                    Object.values(dreams).forEach(dream => {
-                        if (dream.timestamp) {
-                            const dreamDate = new Date(dream.timestamp).toDateString();
-                            if (dreamDate === today) todayCount++;
-                        }
-                    });
-                }
-                document.getElementById('todayDreams').textContent = todayCount;
-            });
-        }
-
-        // ================ أحدث الأحلام ================
-        function loadRecentDreams() {
-            database.ref('dreams').orderByChild('timestamp').limitToLast(6).once('value').then((snapshot) => {
-                const dreams = snapshot.val();
-                const grid = document.getElementById('recentDreams');
-                
-                if (!grid) return;
-                grid.innerHTML = '';
-                
-                if (dreams) {
-                    Object.entries(dreams).reverse().forEach(([id, dream]) => {
-                        const card = createDreamCard(id, dream);
-                        grid.appendChild(card);
-                    });
-                } else {
-                    grid.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد أحلام بعد</p>';
-                }
-            });
-        }
-
-        function createDreamCard(id, dream) {
-            const card = document.createElement('div');
-            card.className = 'dream-card';
-            
-            const date = dream.timestamp ? new Date(dream.timestamp).toLocaleDateString('ar-EG') : 'تاريخ غير معروف';
-            const username = dream.username || 'مستخدم';
-            const initial = username.charAt(0).toUpperCase();
-            const likesCount = dream.likes ? Object.keys(dream.likes).length : 0;
-            const isLiked = auth.currentUser && dream.likes && dream.likes[auth.currentUser.uid];
-            
-            card.innerHTML = `
-                <div class="dream-card-header">
-                    <div class="dream-card-avatar">${initial}</div>
-                    <div>
-                        <div class="dream-card-name">${username}</div>
-                        <div class="dream-card-time">${date}</div>
-                    </div>
-                </div>
-                <div class="dream-card-content">${dream.text.substring(0, 150)}${dream.text.length > 150 ? '...' : ''}</div>
-                <div class="dream-card-footer">
-                    <span class="dream-card-likes" onclick="toggleLike('${id}')">
-                        <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
-                        <span class="likes-count-${id}">${likesCount}</span>
-                    </span>
-                    <a href="dream.html?id=${id}" class="dream-card-link">اقرأ المزيد</a>
-                </div>
-            `;
-            
-            return card;
-        }
-
-        // ================ الإعجاب - فعال 100% ================
-        window.toggleLike = function(dreamId) {
-            if (!auth.currentUser) {
-                alert('يجب تسجيل الدخول أولاً');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            const dreamRef = database.ref('dreams/' + dreamId);
-            const userId = auth.currentUser.uid;
-            
-            dreamRef.transaction((dream) => {
-                if (dream) {
-                    if (!dream.likes) dream.likes = {};
-                    
-                    if (dream.likes[userId]) {
-                        delete dream.likes[userId];
-                    } else {
-                        dream.likes[userId] = true;
-                    }
-                }
-                return dream;
-            }).then(() => {
-                // تحديث العداد في الواجهة
-                dreamRef.once('value').then((snapshot) => {
-                    const dream = snapshot.val();
-                    const likesCount = dream.likes ? Object.keys(dream.likes).length : 0;
-                    const likeSpan = document.querySelector(`.likes-count-${dreamId}`);
-                    if (likeSpan) likeSpan.textContent = likesCount;
-                });
-            });
-        };
-
-        // ================ التحقق من تسجيل الدخول ================
-        function checkAuth() {
-            auth.onAuthStateChanged((user) => {
-                const userMenu = document.getElementById('userMenu');
-                if (!userMenu) return;
-                
-                if (user) {
-                    const username = user.displayName || user.email?.split('@')[0] || 'مستخدم';
-                    userMenu.innerHTML = `
-                        <a href="profile.html" class="btn btn-outline">${username}</a>
-                        <button onclick="logout()" class="btn btn-outline">خروج</button>
-                    `;
-                } else {
-                    userMenu.innerHTML = `
-                        <a href="login.html" class="btn btn-outline">دخول</a>
-                        <a href="register.html" class="btn btn-primary">انضم</a>
-                    `;
-                }
-                
-                // إعادة تحميل الأحلام لتحديث أيقونات الإعجاب
-                loadRecentDreams();
-            });
-        }
-
-        window.logout = function() {
-            auth.signOut().then(() => {
-                window.location.href = 'index.html';
-            });
-        };
     </script>
 </body>
 </html>
