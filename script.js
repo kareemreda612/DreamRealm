@@ -1,6 +1,4 @@
-// ================ DREAM REALM - Firebase Configuration ================
-// تم التحديث بمعلومات Firebase الجديدة
-
+// ================ DREAM REALM - FIREBASE CONFIGURATION ================
 const firebaseConfig = {
     apiKey: "AIzaSyBuQEtPF6q_GxwtqT7cl1crdA8SGUPGE7c",
     authDomain: "dream-realm-7b654.firebaseapp.com",
@@ -11,12 +9,12 @@ const firebaseConfig = {
     appId: "1:708773386154:web:ed09cac847ed0348b03dd3"
 };
 
-// Initialize Firebase (باستخدام طريقة CDN القديمة)
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const auth = firebase.auth();
 
-// ================ تهيئة الإحصائيات عند أول استخدام ================
+// ================ تهيئة الإحصائيات ================
 function initializeStats() {
     database.ref('stats').once('value').then((snapshot) => {
         if (!snapshot.exists()) {
@@ -34,13 +32,17 @@ initializeStats();
 // ================ Global Variables ================
 let currentUser = null;
 let allDreams = [];
+let currentPage = 1;
+const dreamsPerPage = 6;
 
 // ================ Authentication ================
 auth.onAuthStateChanged((user) => {
     currentUser = user;
     updateUI();
     
-    if (window.location.pathname.includes('profile.html') && !user) {
+    // حماية الصفحات
+    const currentPage = window.location.pathname;
+    if (currentPage.includes('profile.html') && !user) {
         window.location.href = 'login.html';
     }
 });
@@ -92,9 +94,11 @@ function loadDreams(containerId, limit = 10, filter = 'all', userId = null) {
     
     if (userId) {
         query = database.ref('dreams').orderByChild('userId').equalTo(userId);
+    } else {
+        query = query.limitToLast(limit);
     }
     
-    query.limitToLast(limit).once('value').then((snapshot) => {
+    query.once('value').then((snapshot) => {
         const dreams = snapshot.val();
         const container = document.getElementById(containerId);
         
@@ -113,7 +117,9 @@ function loadDreams(containerId, limit = 10, filter = 'all', userId = null) {
             }
             
             dreamsArray.forEach(([id, dream]) => {
-                container.appendChild(createDreamCard(id, dream));
+                if (dream.isPublic || (userId && dream.userId === userId)) {
+                    container.appendChild(createDreamCard(id, dream));
+                }
             });
         } else {
             container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">لا توجد أحلام بعد</p>';
@@ -145,7 +151,7 @@ function createDreamCard(id, dream) {
                 <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
                 <span class="likes-count-${id}">${likesCount}</span>
             </span>
-            <a href="dream.html?id=${id}" class="dream-card-link">اقرأ المزيد</a>
+            <a href="dream-detail.html?id=${id}" class="dream-card-link">اقرأ المزيد</a>
         </div>
     `;
     
@@ -228,11 +234,38 @@ function submitDream(text, isPublic = true) {
     });
 }
 
+// ================ Load Single Dream ================
+function loadDreamById(dreamId) {
+    return database.ref('dreams/' + dreamId).once('value').then((snapshot) => {
+        return snapshot.val();
+    });
+}
+
+// ================ Load More (Explore Page) ================
+window.loadMore = function() {
+    currentPage++;
+    const start = (currentPage - 1) * dreamsPerPage;
+    const end = start + dreamsPerPage;
+    const moreDreams = allDreams.slice(start, end);
+    
+    const grid = document.getElementById('dreamsGrid');
+    moreDreams.forEach(dream => {
+        grid.appendChild(createDreamCard(dream.id, dream));
+    });
+    
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (loadMoreBtn && end >= allDreams.length) {
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.textContent = 'لا يوجد المزيد';
+    }
+};
+
 // ================ Export functions to window ================
 window.submitDream = submitDream;
 window.registerUser = registerUser;
 window.loginUser = loginUser;
 window.loadDreams = loadDreams;
+window.loadDreamById = loadDreamById;
 window.getTotalDreams = getTotalDreams;
 window.getTotalUsers = getTotalUsers;
 window.getTodayDreams = getTodayDreams;
