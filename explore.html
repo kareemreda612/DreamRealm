@@ -8,84 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        .explore-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .search-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            position: relative;
-        }
-        
-        .search-container input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            background: var(--bg-card);
-            border: 1px solid oklch(1 0.1 var(--primary-hue) / 0.1);
-            border-radius: var(--radius-full);
-            color: var(--text-primary);
-            font-size: 1rem;
-            backdrop-filter: blur(10px);
-        }
-        
-        .search-container i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-        }
-        
-        .filter-bar {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .load-more {
-            text-align: center;
-            margin-top: 3rem;
-        }
-        
-        #loadMoreBtn {
-            padding: 1rem 3rem;
-            background: transparent;
-            border: 2px solid oklch(0.7 0.3 var(--primary-hue));
-            color: var(--text-primary);
-            border-radius: var(--radius-full);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        #loadMoreBtn:hover {
-            background: oklch(0.7 0.3 var(--primary-hue) / 0.2);
-            box-shadow: 0 0 30px oklch(0.7 0.3 var(--primary-hue));
-        }
-    </style>
 </head>
 <body>
-    <div class="cosmic-bg"></div>
-    <div class="stars" id="stars"></div>
-
-    <header id="header">
+    <header>
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-cloud-moon logo-icon"></i>
+                <i class="fas fa-cloud-moon"></i>
                 <span>Dream Realm</span>
             </div>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-link">الرئيسية</a>
-                <a href="explore.html" class="nav-link active">استكشف</a>
-                <a href="profile.html" class="nav-link">عالمي</a>
-                <a href="dream.html" class="nav-link">سجل حلم</a>
+                <a href="index.html">الرئيسية</a>
+                <a href="explore.html" class="active">استكشف</a>
+                <a href="profile.html">ملفي</a>
+                <a href="dream.html">سجل حلم</a>
+                <a href="login.html">دخول</a>
+                <a href="register.html">تسجيل</a>
             </nav>
             <div class="user-actions" id="userMenu">
                 <a href="login.html" class="btn btn-outline">دخول</a>
@@ -96,60 +33,82 @@
 
     <main>
         <div class="container">
-            <div class="explore-header">
-                <h1 class="typewriter" style="font-size: 2.5rem;">استكشف عوالم الأحلام</h1>
-                <p style="color: var(--text-secondary);">تصفح آلاف الأحلام من حالمين مثلك</p>
-            </div>
-
-            <div class="search-container">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="ابحث عن أحلام...">
-            </div>
-
+            <h1 style="margin-bottom: 2rem;">استكشف الأحلام</h1>
+            
             <div class="filter-bar">
-                <button class="filter-btn active" data-filter="all">الكل</button>
-                <button class="filter-btn" data-filter="popular">الأكثر إعجاباً</button>
-                <button class="filter-btn" data-filter="recent">الأحدث</button>
-                <button class="filter-btn" data-filter="trending">رائج اليوم</button>
+                <button class="filter-btn active" onclick="filterDreams('all')">الكل</button>
+                <button class="filter-btn" onclick="filterDreams('popular')">الأكثر إعجاباً</button>
+                <button class="filter-btn" onclick="filterDreams('recent')">الأحدث</button>
             </div>
 
             <div class="dreams-grid" id="dreamsGrid"></div>
-
+            
             <div class="load-more">
-                <button id="loadMoreBtn">تحميل المزيد</button>
+                <button id="loadMoreBtn" class="btn btn-outline" onclick="loadMore()">تحميل المزيد</button>
             </div>
         </div>
     </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Dream Realm</h4>
-                <ul>
-                    <li><a href="#">عن العالم</a></li>
-                    <li><a href="#">المدونة</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>المساعدة</h4>
-                <ul>
-                    <li><a href="#">الأسئلة</a></li>
-                    <li><a href="#">الدعم</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 Dream Realm</p>
-        </div>
-    </footer>
-
-    <button class="back-to-top" id="backToTop">
-        <i class="fas fa-arrow-up"></i>
-    </button>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
     <script src="script.js"></script>
+    
+    <script>
+        let currentFilter = 'all';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllDreams();
+        });
+        
+        function loadAllDreams() {
+            database.ref('dreams').orderByChild('timestamp').once('value').then((snapshot) => {
+                const dreams = snapshot.val();
+                if (dreams) {
+                    allDreams = Object.entries(dreams).map(([id, dream]) => ({ id, ...dream })).reverse();
+                    displayDreams();
+                }
+            });
+        }
+        
+        function displayDreams() {
+            const grid = document.getElementById('dreamsGrid');
+            grid.innerHTML = '';
+            
+            let filtered = [...allDreams].filter(d => d.isPublic);
+            
+            if (currentFilter === 'popular') {
+                filtered.sort((a, b) => {
+                    const likesA = a.likes ? Object.keys(a.likes).length : 0;
+                    const likesB = b.likes ? Object.keys(b.likes).length : 0;
+                    return likesB - likesA;
+                });
+            } else if (currentFilter === 'recent') {
+                filtered.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            }
+            
+            const start = (currentPage - 1) * dreamsPerPage;
+            const end = start + dreamsPerPage;
+            const dreamsToShow = filtered.slice(start, end);
+            
+            dreamsToShow.forEach(dream => {
+                grid.appendChild(createDreamCard(dream.id, dream));
+            });
+            
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = end >= filtered.length ? 'none' : 'inline-flex';
+            }
+        }
+        
+        window.filterDreams = function(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentFilter = filter;
+            currentPage = 1;
+            displayDreams();
+        };
+    </script>
 </body>
 </html>
