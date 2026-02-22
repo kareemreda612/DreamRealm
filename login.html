@@ -9,33 +9,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
-    <div class="cosmic-bg"></div>
-    <div class="stars" id="stars"></div>
-
-    <div class="auth-container">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <i class="fas fa-cloud-moon" style="font-size: 3rem; color: var(--primary);"></i>
-            <h1 class="auth-title">مرحباً بعودتك</h1>
-            <p class="auth-subtitle">سجل دخولك إلى عالم الأحلام</p>
-        </div>
-        
-        <form class="auth-form" id="loginForm">
-            <div class="form-group">
-                <label>البريد الإلكتروني</label>
-                <input type="email" id="email" placeholder="example@dream.com" required>
+<body>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <i class="fas fa-cloud-moon" style="font-size: 3rem; color: var(--primary);"></i>
+                <h2>تسجيل الدخول</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">أهلاً بعودتك إلى عالم الأحلام</p>
             </div>
             
-            <div class="form-group">
-                <label>كلمة السر</label>
-                <input type="password" id="password" placeholder="********" required>
-            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="email" placeholder="example@dream.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>كلمة السر</label>
+                    <input type="password" id="password" placeholder="********" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
+            </form>
             
-            <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
-        </form>
-        
-        <div style="text-align: center; margin-top: 1.5rem;">
-            <p style="color: var(--text-secondary);">ليس لديك عالم؟ <a href="register.html" style="color: var(--primary);">أنشئ عالمك</a></p>
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                ليس لديك حساب؟ <a href="register.html" style="color: var(--primary);">سجل الآن</a>
+            </p>
         </div>
     </div>
 
@@ -43,5 +42,38 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
     <script src="script.js"></script>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            loginUser(email, password)
+                .then(() => {
+                    window.location.href = 'index.html';
+                })
+                .catch((error) => {
+                    let errorMessage = 'حدث خطأ';
+                    
+                    switch(error.code) {
+                        case 'auth/user-not-found':
+                            errorMessage = 'لا يوجد حساب بهذا البريد';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage = 'كلمة السر غير صحيحة';
+                            break;
+                        case 'auth/invalid-email':
+                            errorMessage = 'البريد الإلكتروني غير صالح';
+                            break;
+                        default:
+                            errorMessage = error.message;
+                    }
+                    
+                    alert(errorMessage);
+                });
+        });
+    </script>
 </body>
 </html>
